@@ -10,5 +10,8 @@ module.exports = {
             storage: './immi-crm-vue.sqlite',
             operatorsAliases: false
         }
+    },
+    authentication: {
+        jwtSecret: process.env.JWT_SECRET || 'Secret'
     }
 }
