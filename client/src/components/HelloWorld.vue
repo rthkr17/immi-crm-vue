@@ -243,6 +243,7 @@
             sm12
             md6
             mx-auto
+            my-2
             class="hidden-md-and-up"
             >
             <message-list></message-list>
@@ -257,8 +258,11 @@
             <todo-list></todo-list>
           </v-flex>
         </v-layout>
-        <v-layout wrap row>
-          <v-flex mx-auto>
+        <v-layout row>
+          <v-flex
+            mx-auto
+            my-2
+          >
             <calender></calender>
           </v-flex>
         </v-layout>
