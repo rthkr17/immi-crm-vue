@@ -3,11 +3,11 @@
     <v-flex xs6 offset-xs3>
       <div class="white elevation-2">
         <v-toolbar
-          color="primary"
+          class="black"
           dark
         >
           <!-- <v-toolbar-side-icon></v-toolbar-side-icon> -->
-            <v-toolbar-title class="white--text">Register</v-toolbar-title>
+            <v-toolbar-title class="white--text">Login</v-toolbar-title>
           <v-spacer></v-spacer>
         </v-toolbar>
         <div class="pl-2 pr-4 pt-4 pb-4">
@@ -18,7 +18,6 @@
               type="email"
               v-model="email"
               name="email"
-              autocomplete="off"
               required
             ></v-text-field>
           </v-flex>
@@ -37,9 +36,9 @@
           <br>
           <v-btn
             color="primary" dark
-            @click="register"
+            @click="login"
           >
-            Sign Up
+            Login
           </v-btn>
         </div>
       </div>
@@ -59,9 +58,9 @@ export default {
     }
   },
   methods: {
-    async register () {
+    async login () {
       try {
-        await AuthenticationService.register({
+        await AuthenticationService.login({
           email: this.email,
           password: this.password
         })
@@ -80,4 +79,5 @@ export default {
   }
   .err{
     color:red;
-  }</style>
+  }
+</style>
