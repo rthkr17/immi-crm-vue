@@ -1,13 +1,13 @@
 <template>
   <v-layout class="cont" colmun>
     <v-flex xs6 offset-xs3>
-      <div class="white elevation-4">
+      <div class="white elevation-4" style="border-radius:5px 5px 5px 5px">
         <v-toolbar
-          color="primary"
-          dark
+          class="primary"
+          style="border-radius:5px 5px 0px 0px"
         >
           <!-- <v-toolbar-side-icon></v-toolbar-side-icon> -->
-            <v-toolbar-title class="white--text">Register</v-toolbar-title>
+            <v-toolbar-title class="text-uppercase" style="font-weight:300">Register</v-toolbar-title>
           <v-spacer></v-spacer>
         </v-toolbar>
         <div class="pl-2 pr-4 pt-4 pb-4">
@@ -29,6 +29,7 @@
               type="password"
               v-model="password"
               name="password"
+              @keyup.enter="register"
               required
             ></v-text-field>
           </v-flex>
@@ -36,8 +37,8 @@
           <div class="err" v-html="error" />
           <br>
           <v-btn
-            color="primary" dark
             @click="register"
+            style="background:#002023; color:#eee"
           >
             Sign Up
           </v-btn>
@@ -67,6 +68,7 @@ export default {
         })
         this.$store.dispatch('setToken', response.data.token)
         this.$store.dispatch('setUser', response.data.user)
+        this.$router.push('/dashboard')
       } catch (error) {
         this.error = error.response.data.error
       }

@@ -11,6 +11,9 @@ export default {
 </script>
 
 <style>
+.v-navigation-drawer__border {
+  display:none;
+}
 * {
   transition:.2s;
 }
