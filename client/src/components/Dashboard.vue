@@ -2,11 +2,13 @@
   <v-app>
     <v-navigation-drawer
       app
+      width=250
+      :mini-variant.sync="mini"
+      mini-variant-width=30
       v-model="drawer"
       :clipped="$vuetify.breakpoint.lgAndUp"
       fixed
       class="grey lighten-4 text-uppercase"
-      color="white--text"
     >
       <v-list>
         <template  v-for="item in items">
@@ -45,6 +47,7 @@
             <v-list-tile
               v-for="(child, i) in item.children"
               :key="i"
+              @click="navigateTo(child.url)"
             >
               <v-list-tile-action v-if="child.icon">
                 <v-icon>{{ child.icon }}</v-icon>
@@ -56,7 +59,10 @@
               </v-list-tile-content>
             </v-list-tile>
           </v-list-group>
-          <v-list-tile v-else :key="item.text">
+          <v-list-tile
+            v-else :key="item.text"
+            @click="navigateTo(item.url)"
+          >
             <v-list-tile-action>
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-tile-action>
@@ -72,13 +78,12 @@
     <v-toolbar
       app
       fixed
-      class="grey darken-4"
-      dark
+      color="primary"
       :clipped-left="$vuetify.breakpoint.lgAndUp"
     >
-      <v-toolbar-side-icon @click.stop="drawer = !drawer" class=" blue--text lighten-4"></v-toolbar-side-icon>
+      <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
 
-      <v-toolbar-title style="width: 250px; text-align:left" class="ml-0 pl-3  blue--text lighten-4">Dashboard</v-toolbar-title>
+      <v-toolbar-title style="width: 250px; text-align:left; font-weight:300" class="ml-0 pl-3 headline text-uppercase">Immify</v-toolbar-title>
       <v-text-field
         flat
         solo-inverted
@@ -94,7 +99,7 @@
 
       <v-menu offset-y>
         <template v-slot:activator="{ on }">
-          <v-icon class="ml-4  blue--text lighten-4" v-on="on">message</v-icon>
+          <v-icon class="ml-4" v-on="on">message</v-icon>
         </template>
         <v-list three-line>
           <template v-for="(msglist, index) in msglists">
@@ -132,7 +137,7 @@
 
       <v-menu offset-y>
         <template v-slot:activator="{ on }">
-          <v-icon class="ml-4  blue--text lighten-4" v-on="on">notification_important</v-icon>
+          <v-icon class="ml-4" v-on="on">notification_important</v-icon>
         </template>
         <v-list three-line>
           <template v-for="(notiflist, index) in notiflists">
@@ -188,16 +193,25 @@
       </v-menu>
     </v-toolbar>
 
-    <v-content>
-      <v-container grid-list-md text-xs-center>
+    <v-content class="elevation-2">
+      <v-container
+        v-if="!$store.state.isUserLoggedIn"
+        grid-list-md
+        text-xs-center
+      >
+        <login style ="margin-top:100px;" ma-auto></login>
+      </v-container>
+      <v-container
+        v-if="$store.state.isUserLoggedIn"
+        grid-list-xl
+        text-xs-center
+      >
         <v-layout row>
           <v-flex
             xs12
             sm12
             md8
             lg8
-            mx-auto
-            my-2
           >
             <app-list-table></app-list-table>
           </v-flex>
@@ -206,44 +220,14 @@
             xs12
             md4
             lg4
-            mx-auto
-            my-2
           >
             <task-list></task-list>
           </v-flex>
         </v-layout>
         <v-layout row>
           <v-flex
-            class="hidden-md-and-up"
-            xs12
-            md4
-            lg4
-            mx-auto
-            my-2
-          >
-            <task-list></task-list>
-          </v-flex>
-        </v-layout>
-        <v-layout row>
-          <v-flex
-            class="hidden-sm-and-down"
             sm12
             md6
-            mx-auto
-            my-2
-          >
-            <message-list></message-list>
-          </v-flex>
-          <v-flex sm12 md6 ma-auto>
-            <notif-list></notif-list>
-          </v-flex>
-        </v-layout>
-        <v-layout row>
-          <v-flex
-            sm12
-            md6
-            mx-auto
-            my-2
             class="hidden-md-and-up"
             >
             <message-list></message-list>
@@ -252,23 +236,43 @@
             class="hidden-sm-and-down"
             sm12
             md6
-            mx-auto
-            my-2
           >
             <todo-list></todo-list>
           </v-flex>
         </v-layout>
         <v-layout row>
           <v-flex
-            mx-auto
-            my-2
+            sm12
+            style="margin-top:-20px"
           >
             <calender></calender>
           </v-flex>
         </v-layout>
+        <v-layout row>
+          <v-flex
+            class="hidden-md-and-up"
+            xs12
+            md4
+            lg4
+          >
+            <task-list></task-list>
+          </v-flex>
+        </v-layout>
+        <v-layout row>
+          <v-flex
+            class="hidden-sm-and-down"
+            sm12
+            md6
+          >
+            <message-list></message-list>
+          </v-flex>
+          <v-flex sm12 md6>
+            <notif-list></notif-list>
+          </v-flex>
+        </v-layout>
       </v-container>
     </v-content>
-    <v-footer app></v-footer>
+    <!-- <v-footer app>c - 2019</v-footer> -->
   </v-app>
 </template>
 
@@ -278,6 +282,8 @@ import MessageList from '@/components/MessageList'
 import NotifList from '@/components/NotifList'
 import TaskList from '@/components/TaskList'
 import Calender from '@/components/Calender'
+import Login from '@/components/Login'
+import Todo from '@/components/Todo'
 
 export default {
   components: {
@@ -285,33 +291,35 @@ export default {
     MessageList,
     NotifList,
     TaskList,
-    Calender
+    Calender,
+    Login,
+    Todo
   },
   data: () => ({
     dialog: false,
     drawer: null,
     items: [
-      { icon: 'contacts', text: 'Applications' },
-      { icon: 'history', text: 'Schedules' },
-      { icon: 'message', text: 'Messages' },
+      { icon: 'contacts', text: 'Applications', url: '/applications' },
+      { icon: 'history', text: 'Schedules', url: '/schedules' },
+      { icon: 'message', text: 'Messages', url: '/messages' },
       {
         icon: 'keyboard_arrow_up',
         'icon-alt': 'keyboard_arrow_down',
         text: 'More',
         model: false,
         children: [
-          { text: 'Reports' },
-          { text: 'Tasks' },
-          { text: 'Invite' }
+          { text: 'Reports', url: '/reports' },
+          { text: 'Tasks', url: '/tasks' },
+          { text: 'Invite', url: '/invite' }
         ]
       },
-      { icon: 'settings', text: 'Settings' },
-      { icon: 'chat_bubble', text: 'Send feedback' },
-      { icon: 'help', text: 'Help' }
+      { icon: 'settings', text: 'Settings', url: '/settings' },
+      { icon: 'chat_bubble', text: 'Send feedback', url: '/feedback' },
+      { icon: 'help', text: 'Help', url: '/help' }
     ],
     accountslists: [
       { title: 'Account', url: '/profile' },
-      { title: 'Sign Out', url: '/login' },
+      { title: 'Sign Out', url: '/logout' },
       { title: 'Settings', url: '/settings' }
     ],
     msglists: [
@@ -393,9 +401,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-*{
-  box-sizing:border-box;
-}
 h1, h2 {
   font-weight: normal;
 }

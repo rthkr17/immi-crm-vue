@@ -1,9 +1,9 @@
 <template>
   <v-layout class="cont" colmun>
     <v-flex xs6 offset-xs3>
-      <div class="white elevation-2">
+      <div class="white elevation-15">
         <v-toolbar
-          class="black"
+          class="primary"
           dark
         >
           <!-- <v-toolbar-side-icon></v-toolbar-side-icon> -->
@@ -66,6 +66,7 @@ export default {
         })
         this.$store.dispatch('setToken', response.data.token)
         this.$store.dispatch('setUser', response.data.user)
+        this.$router.push('/dashboard')
       } catch (error) {
         this.error = error.response.data.error
       }

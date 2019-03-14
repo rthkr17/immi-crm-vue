@@ -1,15 +1,18 @@
 <template>
-  <v-card>
-    <v-toolbar flat class="grey lighten-4">
-
-      <v-toolbar-title>Notifications</v-toolbar-title>
+  <v-card class="white elevation-2">
+    <v-card-title flat class="white headline">
+      Notifications
 
       <v-spacer></v-spacer>
 
-      <v-btn icon>
+      <v-btn
+        icon
+        color="accent"
+        dark class="mb-2"
+      >
         <v-icon>search</v-icon>
       </v-btn>
-    </v-toolbar>
+    </v-card-title>
 
     <v-list three-line>
       <template v-for="(item, index) in items">

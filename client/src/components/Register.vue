@@ -1,7 +1,7 @@
 <template>
   <v-layout class="cont" colmun>
     <v-flex xs6 offset-xs3>
-      <div class="white elevation-2">
+      <div class="white elevation-4">
         <v-toolbar
           color="primary"
           dark

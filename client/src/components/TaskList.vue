@@ -1,15 +1,17 @@
 <template>
-  <v-card height="100%">
-    <v-toolbar flat class="grey lighten-4">
-
-      <v-toolbar-title>Tasks</v-toolbar-title>
+  <v-card height="100%" class="white elevation-2">
+    <v-card-title flat class="white headline">
+      Tasks
 
       <v-spacer></v-spacer>
-
-      <v-btn icon>
-        <v-icon>search</v-icon>
+      <v-btn
+        icon
+        color="accent"
+        dark class="mb-2"
+      >
+        <v-icon>add</v-icon>
       </v-btn>
-    </v-toolbar>
+    </v-card-title>
 
     <v-list three-line>
       <template v-for="(item, index) in items">
@@ -23,7 +25,6 @@
         <v-divider
           v-else-if="item.divider"
           :key="index"
-          :inset="item.inset"
         ></v-divider>
 
         <v-list-tile
@@ -32,9 +33,6 @@
           avatar
           @click="damn"
         >
-          <v-list-tile-avatar>
-            <img :src="item.avatar">
-          </v-list-tile-avatar>
 
           <v-list-tile-content>
             <v-list-tile-title v-html="item.title"></v-list-tile-title>

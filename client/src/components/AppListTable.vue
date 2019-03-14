@@ -1,12 +1,16 @@
 <template>
-  <v-card height="100%">
-    <v-toolbar flat class="grey lighten-4">
-      <v-toolbar-title>Applications</v-toolbar-title>
+  <v-card height="100%" class="white elevation-2">
+    <v-card-title flat class="white headline">
+      Applications
       <v-spacer></v-spacer>
+      <v-btn
+        icon
+        color="accent"
+        dark class="mb-2"
+      >
+        <v-icon>search</v-icon>
+      </v-btn>
       <v-dialog v-model="dialog" max-width="500px">
-        <template v-slot:activator="{ on }">
-          <v-btn color="primary" dark class="mb-2" v-on="on">New Item</v-btn>
-        </template>
         <v-card>
           <v-card-title>
             <span class="headline">{{ formTitle }}</span>
@@ -16,19 +20,19 @@
             <v-container>
               <v-layout wrap>
                 <v-flex>
-                  <v-text-field v-model="editedItem.name" label="Dessert name"></v-text-field>
+                  <v-text-field v-model="editedItem.name" label="Name"></v-text-field>
                 </v-flex>
                 <v-flex>
-                  <v-text-field v-model="editedItem.calories" label="Calories"></v-text-field>
+                  <v-text-field v-model="editedItem.type" label="Type"></v-text-field>
                 </v-flex>
                 <v-flex>
-                  <v-text-field v-model="editedItem.fat" label="Fat (g)"></v-text-field>
+                  <v-text-field v-model="editedItem.status" label="Status"></v-text-field>
                 </v-flex>
                 <v-flex>
-                  <v-text-field v-model="editedItem.carbs" label="Carbs (g)"></v-text-field>
+                  <v-text-field v-model="editedItem.documents" label="Documents"></v-text-field>
                 </v-flex>
                 <v-flex>
-                  <v-text-field v-model="editedItem.protein" label="Protein (g)"></v-text-field>
+                  <v-text-field v-model="editedItem.lifespan" label="Lifespan (Days)"></v-text-field>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -41,32 +45,43 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
-    </v-toolbar>
+    </v-card-title>
     <v-data-table
       :headers="headers"
-      :items="desserts"
-      class="elevation-1"
+      :items="applications"
     >
       <template v-slot:items="props">
         <td>{{ props.item.name }}</td>
-        <td class="text-xs-right">{{ props.item.calories }}</td>
-        <td class="text-xs-right">{{ props.item.fat }}</td>
-        <td class="text-xs-right">{{ props.item.carbs }}</td>
-        <td class="text-xs-right">{{ props.item.protein }}</td>
+        <td class="justify-center">{{ props.item.type }}</td>
+        <td class="justify-center">{{ props.item.status }}</td>
+        <td class="justify-center">
+          <v-icon
+            @click="showDocs(props.item.documents)"
+          >
+            folder
+          </v-icon>
+        </td>
+        <td class="justify-center">{{ props.item.lifespan }}</td>
         <td class="justify-center layout px-0">
-          <v-icon
-            small
-            class="mr-2"
-            @click="editItem(props.item)"
-          >
-            edit
-          </v-icon>
-          <v-icon
-            small
-            @click="deleteItem(props.item)"
-          >
-            delete
-          </v-icon>
+          <v-menu dark offset-y>
+            <template v-slot:activator="{ on }">
+              <v-icon class="ml-4" v-on="on">reorder</v-icon>
+            </template>
+            <v-list>
+              <v-list-tile
+                v-for="(action, index) in actions"
+                :key="index"
+                style="text-align:right"
+              >
+                  <v-list-tile-title
+                    @click="action(props.item, index)"
+                    style="cursor: pointer"
+                  >
+                    {{ action.text }}
+                  </v-list-tile-title>
+              </v-list-tile>
+            </v-list>
+          </v-menu>
         </td>
       </template>
       <template v-slot:no-data>
@@ -79,35 +94,69 @@
 <script>
 export default {
   data: () => ({
+    actions: [
+      {
+        text: 'Create Note',
+        id: 'cn'
+      },
+      {
+        text: 'Family Member',
+        id: 'cfm'
+      },
+      {
+        text: 'Edit',
+        id: 'edit'
+      },
+      {
+        text: 'Validate',
+        id: 'validate'
+      },
+      {
+        text: 'Assign',
+        id: 'assign'
+      },
+      {
+        text: 'Send Email',
+        id: 'send'
+      },
+      {
+        text: 'Forms',
+        id: 'forms'
+      },
+      {
+        text: 'Submission',
+        id: 'submit'
+      }
+    ],
+
     dialog: false,
     headers: [
       {
-        text: 'Dessert (100g serving)',
+        text: 'Applicant Name',
         align: 'left',
-        sortable: false,
         value: 'name'
       },
-      { text: 'Calories', value: 'calories' },
-      { text: 'Fat (g)', value: 'fat' },
-      { text: 'Carbs (g)', value: 'carbs' },
-      { text: 'Protein (g)', value: 'protein' },
+      { text: 'Type', value: 'type' },
+      { text: 'Status', value: 'status' },
+      { text: 'Documents', value: 'documents' },
+      { text: 'Lifespan', value: 'lifespan' },
       { text: 'Actions', value: 'name', sortable: false }
     ],
-    desserts: [],
+    applications: [],
     editedIndex: -1,
     editedItem: {
       name: '',
-      calories: 0,
-      fat: 0,
-      carbs: 0,
-      protein: 0
+      type: '',
+      status: '',
+      documents: '',
+      lifespan: 0
     },
     defaultItem: {
       name: '',
-      calories: 0,
-      fat: 0,
-      carbs: 0,
-      protein: 0
+      type: 0,
+      status: 0,
+      documents: 0,
+      lifespan: 0
     }
   }),
 
@@ -129,89 +178,89 @@ export default {
 
   methods: {
     initialize () {
-      this.desserts = [
+      this.applications = [
         {
           name: 'Frozen Yogurt',
-          calories: 159,
-          fat: 6.0,
-          carbs: 24,
-          protein: 4.0
+          type: 159,
+          status: 6.0,
+          documents: 24,
+          lifespan: 4.0
         },
         {
           name: 'Ice cream sandwich',
-          calories: 237,
-          fat: 9.0,
-          carbs: 37,
-          protein: 4.3
+          type: 237,
+          status: 9.0,
+          documents: 37,
+          lifespan: 4.3
         },
         {
           name: 'Eclair',
-          calories: 262,
-          fat: 16.0,
-          carbs: 23,
-          protein: 6.0
+          type: 262,
+          status: 16.0,
+          documents: 23,
+          lifespan: 6.0
         },
         {
           name: 'Cupcake',
-          calories: 305,
-          fat: 3.7,
-          carbs: 67,
-          protein: 4.3
+          type: 305,
+          status: 3.7,
+          documents: 67,
+          lifespan: 4.3
         },
         {
           name: 'Gingerbread',
-          calories: 356,
-          fat: 16.0,
-          carbs: 49,
-          protein: 3.9
+          type: 356,
+          status: 16.0,
+          documents: 49,
+          lifespan: 3.9
         },
         {
           name: 'Jelly bean',
-          calories: 375,
-          fat: 0.0,
-          carbs: 94,
-          protein: 0.0
+          type: 375,
+          status: 0.0,
+          documents: 94,
+          lifespan: 0.0
         },
         {
           name: 'Lollipop',
-          calories: 392,
-          fat: 0.2,
-          carbs: 98,
-          protein: 0
+          type: 392,
+          status: 0.2,
+          documents: 98,
+          lifespan: 0
         },
         {
           name: 'Honeycomb',
-          calories: 408,
-          fat: 3.2,
-          carbs: 87,
-          protein: 6.5
+          type: 408,
+          status: 3.2,
+          documents: 87,
+          lifespan: 6.5
         },
         {
           name: 'Donut',
-          calories: 452,
-          fat: 25.0,
-          carbs: 51,
-          protein: 4.9
+          type: 452,
+          status: 25.0,
+          documents: 51,
+          lifespan: 4.9
         },
         {
           name: 'KitKat',
-          calories: 518,
-          fat: 26.0,
-          carbs: 65,
-          protein: 7
+          type: 518,
+          status: 26.0,
+          documents: 65,
+          lifespan: 7
         }
       ]
     },
 
     editItem (item) {
-      this.editedIndex = this.desserts.indexOf(item)
+      this.editedIndex = this.applications.indexOf(item)
       this.editedItem = Object.assign({}, item)
       this.dialog = true
     },
 
     deleteItem (item) {
-      const index = this.desserts.indexOf(item)
-      confirm('Are you sure you want to delete this item?') && this.desserts.splice(index, 1)
+      const index = this.applications.indexOf(item)
+      confirm('Are you sure you want to delete this item?') && this.applications.splice(index, 1)
     },
 
     close () {
@@ -224,9 +273,9 @@ export default {
 
     save () {
       if (this.editedIndex > -1) {
-        Object.assign(this.desserts[this.editedIndex], this.editedItem)
+        Object.assign(this.applications[this.editedIndex], this.editedItem)
       } else {
-        this.desserts.push(this.editedItem)
+        this.applications.push(this.editedItem)
       }
       this.close()
     }
