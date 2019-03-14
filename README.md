@@ -11,7 +11,7 @@ Buying hosting space and domain name from a third party hosting service is suffi
 
 Platform details : 
 
-A web app consists of mainly four parts.
+A web app consists of mainly three parts.
 1. Front end : The UI and client side logic comes here. We are using a MVC based framework “Vue.js” that provides a component based development process.
 
 2. Backend: the server side logic and functionality of the application comes here. We are using the “Express” and “NodeJS” framework to implement the backend.
