@@ -1,6 +1,5 @@
 <template>
   <v-container>
-    <page-header/>
     <v-layout
       class="cont"
       grid-list-md
@@ -13,7 +12,7 @@
             style="border-radius:5px 5px 0px 0px"
           >
             <!-- <v-toolbar-side-icon></v-toolbar-side-icon> -->
-              <v-toolbar-title class="white--text text-uppercase" style="font-weight:300">Login</v-toolbar-title>
+              <v-toolbar-title class="secondary--text text-uppercase" style="font-family:Source Sans Pro;font-weight:400">Log in</v-toolbar-title>
             <v-spacer></v-spacer>
           </v-toolbar>
           <div class="pl-2 pr-4 pt-4 pb-4">

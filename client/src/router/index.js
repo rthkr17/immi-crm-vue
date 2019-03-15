@@ -7,6 +7,7 @@ import Welcome from '@/components/Welcome'
 import Applications from '@/components/Applications'
 import PageHeader from '@/components/PageHeader'
 import NavDrawer from '@/components/NavDrawer'
+import Calender from '@/components/Calender'
 
 Vue.use(Router)
 
@@ -43,6 +44,11 @@ export default new Router({
     {
       path: '/nav-drawer',
       component: NavDrawer
+    },
+    {
+      path: '/schedules',
+      name: 'schedules',
+      component: Calender
     }
   ]
 })

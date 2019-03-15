@@ -1,99 +1,30 @@
 <template>
-  <v-card height="100%" class="white elevation-2">
-    <v-card-title flat class="white headline">
-      Applications
-      <v-spacer></v-spacer>
-      <v-btn
-        icon
-        color="accent"
-        dark class="mb-2"
+  <v-app>
+    <!-------------------------->
+    <!-------------------------->
+    <v-layout row>
+      <v-flex
+        xs12
+        sm12
+        md12
+        lg12
       >
-        <v-icon>search</v-icon>
-      </v-btn>
-      <v-dialog v-model="dialog" max-width="500px">
-        <v-card>
-          <v-card-title>
-            <span class="headline">{{ formTitle }}</span>
-          </v-card-title>
-
-          <v-card-text>
-            <v-container>
-              <v-layout wrap>
-                <v-flex>
-                  <v-text-field v-model="editedItem.name" label="Name"></v-text-field>
-                </v-flex>
-                <v-flex>
-                  <v-text-field v-model="editedItem.type" label="Type"></v-text-field>
-                </v-flex>
-                <v-flex>
-                  <v-text-field v-model="editedItem.status" label="Status"></v-text-field>
-                </v-flex>
-                <v-flex>
-                  <v-text-field v-model="editedItem.documents" label="Documents"></v-text-field>
-                </v-flex>
-                <v-flex>
-                  <v-text-field v-model="editedItem.lifespan" label="Lifespan (Days)"></v-text-field>
-                </v-flex>
-              </v-layout>
-            </v-container>
-          </v-card-text>
-
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" flat @click="close">Cancel</v-btn>
-            <v-btn color="blue darken-1" flat @click="save">Save</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-    </v-card-title>
-    <v-data-table
-      :headers="headers"
-      :items="applications"
-    >
-      <template v-slot:items="props">
-        <td>{{ props.item.name }}</td>
-        <td class="justify-center">{{ props.item.type }}</td>
-        <td class="justify-center">{{ props.item.status }}</td>
-        <td class="justify-center">
-          <v-icon
-            @click="showDocs(props.item.documents)"
-          >
-            folder
-          </v-icon>
-        </td>
-        <td class="justify-center">{{ props.item.lifespan }}</td>
-        <td class="justify-center layout px-0">
-          <v-menu dark offset-y>
-            <template v-slot:activator="{ on }">
-              <v-icon class="ml-4" v-on="on">reorder</v-icon>
-            </template>
-            <v-list>
-              <v-list-tile
-                v-for="(action, index) in actions"
-                :key="index"
-                style="text-align:right"
-              >
-                  <v-list-tile-title
-                    @click="action(props.item, index)"
-                    style="cursor: pointer"
-                  >
-                    {{ action.text }}
-                  </v-list-tile-title>
-              </v-list-tile>
-            </v-list>
-          </v-menu>
-        </td>
-      </template>
-      <template v-slot:no-data>
-        <v-btn color="primary" @click="initialize">Reset</v-btn>
-      </template>
-    </v-data-table>
-  </v-card>
+        <app-list-table></app-list-table>
+      </v-flex>
+    </v-layout>
+    <!-- <v-footer app>c - 2019</v-footer> -->
+  </v-app>
 </template>
 
 <script>
+import AppListTable from '@/components/AppListTable'
+
 export default {
+  components: {
+    AppListTable
+  },
   data: () => ({
+    dialog: false,
     actions: [
       {
         text: 'Create Note',
@@ -128,8 +59,6 @@ export default {
         id: 'submit'
       }
     ],
-
-    dialog: false,
     headers: [
       {
         text: 'Applicant Name',
@@ -159,7 +88,6 @@ export default {
       lifespan: 0
     }
   }),
-
   computed: {
     formTitle () {
       return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
@@ -176,7 +104,13 @@ export default {
     this.initialize()
   },
 
+  props: {
+    source: String
+  },
   methods: {
+    navigateTo (route) {
+      this.$router.push(route)
+    },
     initialize () {
       this.applications = [
         {
@@ -281,8 +215,23 @@ export default {
     }
   }
 }
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+h1, h2 {
+  font-weight: normal;
+}
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+li {
+  display: inline-block;
+  margin: 0 10px;
+}
+a {
+  color: #42b983;
+}
 </style>

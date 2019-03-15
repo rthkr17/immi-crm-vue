@@ -15,7 +15,7 @@ Vue.use(Vuetify, {
   iconfont: 'md',
   theme: {
     primary: colors.cyan, // #E53935
-    secondary: colors.cyan.darken1, // #FFCDD2
+    secondary: colors.cyan.darken4, // #FFCDD2
     accent: colors.deepOrange
   }
 })

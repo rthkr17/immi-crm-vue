@@ -1,12 +1,32 @@
 <template>
-    <div id="app">
-      <router-view/>
-    </div>
+    <v-app id="app">
+      <!-------------------------->
+      <nav-drawer
+      ></nav-drawer>
+      <!-------------------------->
+      <!-------------------------->
+      <!-------------------------->
+      <v-content class="elevation-2">
+        <v-container
+          grid-list-xl
+          text-xs-center
+        >
+          <router-view/>
+        </v-container>
+      </v-content>
+    </v-app>
 </template>
 
 <script>
+import NavDrawer from '@/components/NavDrawer'
 export default {
-  name: 'App'
+  components: {
+    NavDrawer
+  },
+  name: 'App',
+  data: () => ({
+    drawer: null
+  })
 }
 </script>
 
@@ -23,6 +43,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 00px;
+  margin-top: 0px;
 }
 </style>

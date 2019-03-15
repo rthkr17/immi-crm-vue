@@ -1,57 +1,63 @@
 <template>
-  <v-layout class="cont" colmun>
-    <v-flex xs10 offset-xs1 sm6 offset-sm3 ma-auto>
-      <div class="white elevation-4" style="border-radius:5px 5px 5px 5px">
-        <v-toolbar
-          class="primary"
-          style="border-radius:5px 5px 0px 0px"
-        >
-          <!-- <v-toolbar-side-icon></v-toolbar-side-icon> -->
-            <v-toolbar-title class="white--text text-uppercase" style="font-weight:300">Create Account</v-toolbar-title>
-          <v-spacer></v-spacer>
-        </v-toolbar>
-        <div class="pl-2 pr-4 pt-4 pb-4">
-          <v-flex xs10 offset-xs1 sm6 offset-sm3 md6 offset-md3>
-            <v-text-field
-              prepend-icon="person"
-              label="Email"
-              type="email"
-              v-model="email"
-              name="email"
-              autocomplete="off"
-              required
-            ></v-text-field>
-          </v-flex>
-          <v-flex xs10 offset-xs1 sm6 offset-sm3 md6 offset-md3>
-            <v-text-field
-              prepend-icon="lock"
-              label="Password"
-              type="password"
-              v-model="password"
-              name="password"
-              @keyup.enter="register"
-              required
-            ></v-text-field>
-          </v-flex>
-          <br>
-          <div class="err" v-html="error" />
-          <br>
-          <v-btn
-            @click="register"
-            class="secondary"
+  <v-container>
+    <v-layout
+      class="cont"
+      grid-list-md
+      text-xs-center
+    >
+      <v-flex xs10 offset-xs1 sm6 offset-sm3 ma-auto>
+        <div class="white elevation-4" style="border-radius:5px 5px 5px 5px">
+          <v-toolbar
+            class="primary"
+            style="border-radius:5px 5px 0px 0px"
           >
-            Sign Up
-          </v-btn>
-          <v-btn
-            @click="navigateTo('/login')"
-            class="accent"
-          >
-            Sign in
-          </v-btn>
+            <!-- <v-toolbar-side-icon></v-toolbar-side-icon> -->
+              <v-toolbar-title class="secondary--text text-uppercase" style="font-weight:300">Create Account</v-toolbar-title>
+            <v-spacer></v-spacer>
+          </v-toolbar>
+          <div class="pl-2 pr-4 pt-4 pb-4">
+            <v-flex xs10 offset-xs1 sm6 offset-sm3 md6 offset-md3>
+              <v-text-field
+                prepend-icon="person"
+                label="Email"
+                type="email"
+                v-model="email"
+                name="email"
+                autocomplete="off"
+                required
+              ></v-text-field>
+            </v-flex>
+            <v-flex xs10 offset-xs1 sm6 offset-sm3 md6 offset-md3>
+              <v-text-field
+                prepend-icon="lock"
+                label="Password"
+                type="password"
+                v-model="password"
+                name="password"
+                @keyup.enter="register"
+                required
+              ></v-text-field>
+            </v-flex>
+            <br>
+            <div class="err" v-html="error" />
+            <br>
+            <v-btn
+              @click="register"
+              class="secondary"
+            >
+              Sign Up
+            </v-btn>
+            <v-btn
+              @click="navigateTo('/login')"
+              class="accent"
+            >
+              Sign in
+            </v-btn>
+          </div>
         </div>
-      </div>
-    </v-flex>
-  </v-layout>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
@@ -89,7 +95,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   .cont{
-    margin-top:60px;
+    margin-top:100px;
   }
   .err{
     color:red;

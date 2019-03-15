@@ -7,7 +7,11 @@
   >
     <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
 
-    <v-toolbar-title style="width: 250px; text-align:left; font-weight:300" class="ml-0 pl-3 headline text-uppercase">Immify</v-toolbar-title>
+    <v-toolbar-title
+      @click="navigateTo('dashboard')"
+      style="width: 200px; text-align:left; font-weight:300"
+      class="ml-0 pl-3 headline text-uppercase"
+    >Immify</v-toolbar-title>
     <v-text-field
       v-if="$store.state.isUserLoggedIn"
       flat
