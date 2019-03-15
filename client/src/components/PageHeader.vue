@@ -1,184 +1,184 @@
 <template>
   <v-toolbar
-      app
-      fixed
-      color="primary"
-      :clipped-left="$vuetify.breakpoint.lgAndUp"
+    app
+    fixed
+    color="primary"
+    :clipped-left="$vuetify.breakpoint.lgAndUp"
+  >
+    <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
+
+    <v-toolbar-title style="width: 250px; text-align:left; font-weight:300" class="ml-0 pl-3 headline text-uppercase">Immify</v-toolbar-title>
+    <v-text-field
+      v-if="$store.state.isUserLoggedIn"
+      flat
+      solo-inverted
+      hide-details
+      v-model="searchquery"
+      prepend-inner-icon="search"
+      label="Search"
+      @keyup.enter="search"
+      class="hidden-sm-and-down"
+    ></v-text-field>
+
+    <v-spacer></v-spacer>
+
+    <v-menu
+      offset-y
+      v-if="$store.state.isUserLoggedIn"
     >
-      <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-
-      <v-toolbar-title style="width: 250px; text-align:left; font-weight:300" class="ml-0 pl-3 headline text-uppercase">Immify</v-toolbar-title>
-      <v-text-field
-        v-if="$store.state.isUserLoggedIn"
-        flat
-        solo-inverted
-        hide-details
-        v-model="searchquery"
-        prepend-inner-icon="search"
-        label="Search"
-        @keyup.enter="search"
-        class="hidden-sm-and-down"
-      ></v-text-field>
-
-      <v-spacer></v-spacer>
-
-      <v-menu
-        offset-y
-        v-if="$store.state.isUserLoggedIn"
-      >
-        <template v-slot:activator="{ on }">
-          <v-icon class="ml-4" v-on="on">message</v-icon>
-        </template>
-        <v-list three-line>
-          <template v-for="(msglist, index) in msglists">
-            <v-subheader
-              v-if="msglist.header"
-              :key="msglist.header"
-            >
-              {{ msglist.header }}
-            </v-subheader>
-
-            <v-divider
-              v-else-if="msglist.divider"
-              :key="index"
-              :inset="msglist.inset"
-            ></v-divider>
-
-            <v-list-tile
-              v-else
-              :key="msglist.title"
-              avatar
-              @click="damn"
-            >
-              <v-list-tile-avatar>
-                <img :src="msglist.avatar">
-              </v-list-tile-avatar>
-
-              <v-list-tile-content>
-                <v-list-tile-title v-html="msglist.title"></v-list-tile-title>
-                <v-list-tile-sub-title v-html="msglist.subtitle"></v-list-tile-sub-title>
-              </v-list-tile-content>
-            </v-list-tile>
-          </template>
-        </v-list>
-      </v-menu>
-      <v-menu
-        offset-y
-        v-if="$store.state.isUserLoggedIn"
-      >
-        <template v-slot:activator="{ on }">
-          <v-icon class="ml-4" v-on="on">notification_important</v-icon>
-        </template>
-        <v-list three-line>
-          <template v-for="(notiflist, index) in notiflists">
-            <v-subheader
-              v-if="notiflist.header"
-              :key="notiflist.header"
-            >
-              {{ notiflist.header }}
-            </v-subheader>
-
-            <v-divider
-              v-else-if="notiflist.divider"
-              :key="index"
-              :inset="notiflist.inset"
-            ></v-divider>
-
-            <v-list-tile
-              v-else
-              :key="notiflist.title"
-              avatar
-              @click="damn"
-            >
-              <v-list-tile-avatar>
-                <img :src="notiflist.avatar">
-              </v-list-tile-avatar>
-
-              <v-list-tile-content>
-                <v-list-tile-title v-html="notiflist.title"></v-list-tile-title>
-                <v-list-tile-sub-title v-html="notiflist.subtitle"></v-list-tile-sub-title>
-              </v-list-tile-content>
-            </v-list-tile>
-          </template>
-        </v-list>
-      </v-menu>
-
-      <v-menu
-        dark
-        offset-y
-        v-if="$store.state.isUserLoggedIn"
-      >
-        <template v-slot:activator="{ on }">
-          <v-icon large class="ml-4" v-on="on">account_circle</v-icon>
-        </template>
-        <v-list>
-          <v-list-tile
-            v-for="(accountslist, index) in accountslists"
-            :key="index"
+      <template v-slot:activator="{ on }">
+        <v-icon class="ml-4" v-on="on">message</v-icon>
+      </template>
+      <v-list three-line>
+        <template v-for="(msglist, index) in msglists">
+          <v-subheader
+            v-if="msglist.header"
+            :key="msglist.header"
           >
-              <v-list-tile-title
-                @click="navigateTo(accountslist.url)"
-                style="cursor: pointer"
-              >
-                {{ accountslist.title }}
-              </v-list-tile-title>
+            {{ msglist.header }}
+          </v-subheader>
+
+          <v-divider
+            v-else-if="msglist.divider"
+            :key="index"
+            :inset="msglist.inset"
+          ></v-divider>
+
+          <v-list-tile
+            v-else
+            :key="msglist.title"
+            avatar
+            @click="damn"
+          >
+            <v-list-tile-avatar>
+              <img :src="msglist.avatar">
+            </v-list-tile-avatar>
+
+            <v-list-tile-content>
+              <v-list-tile-title v-html="msglist.title"></v-list-tile-title>
+              <v-list-tile-sub-title v-html="msglist.subtitle"></v-list-tile-sub-title>
+            </v-list-tile-content>
           </v-list-tile>
-        </v-list>
-      </v-menu>
-      <v-btn
-        class="hidden-sm-and-down"
-        flat
-        color="white"
-        v-if="!$store.state.isUserLoggedIn"
-        @click="navigateTo('/register')"
-      >
-        Features
-      </v-btn>
-      <v-btn
-        class="hidden-sm-and-down"
-        flat
-        color="white"
-        v-if="!$store.state.isUserLoggedIn"
-        @click="navigateTo('/register')"
-      >
-        Pricing
-      </v-btn>
-      <v-btn
-        class="hidden-sm-and-down"
-        flat
-        color="white"
-        v-if="!$store.state.isUserLoggedIn"
-        @click="navigateTo('/register')"
-      >
-        About
-      </v-btn>
-      <v-btn
-        class="secondary hidden-sm-and-down"
-        flat
-        v-if="!$store.state.isUserLoggedIn"
-        @click="navigateTo('/login')"
-      >
-        Log in
-      </v-btn>
-      <!-- <v-btn
-        flat
-        large
-        style="color:#203040"
-        v-if="!$store.state.isUserLoggedIn"
-        @click="navigateTo('/register')"
-      >
-        Sign Up
-      </v-btn> -->
-      <v-btn
-        flat
-        large
-        class="accent"
-        v-if="!$store.state.isUserLoggedIn"
-        @click="navigateTo('/register')"
-      >
-        Try for free
-      </v-btn>
-    </v-toolbar>
+        </template>
+      </v-list>
+    </v-menu>
+    <v-menu
+      offset-y
+      v-if="$store.state.isUserLoggedIn"
+    >
+      <template v-slot:activator="{ on }">
+        <v-icon class="ml-4" v-on="on">notification_important</v-icon>
+      </template>
+      <v-list three-line>
+        <template v-for="(notiflist, index) in notiflists">
+          <v-subheader
+            v-if="notiflist.header"
+            :key="notiflist.header"
+          >
+            {{ notiflist.header }}
+          </v-subheader>
+
+          <v-divider
+            v-else-if="notiflist.divider"
+            :key="index"
+            :inset="notiflist.inset"
+          ></v-divider>
+
+          <v-list-tile
+            v-else
+            :key="notiflist.title"
+            avatar
+            @click="damn"
+          >
+            <v-list-tile-avatar>
+              <img :src="notiflist.avatar">
+            </v-list-tile-avatar>
+
+            <v-list-tile-content>
+              <v-list-tile-title v-html="notiflist.title"></v-list-tile-title>
+              <v-list-tile-sub-title v-html="notiflist.subtitle"></v-list-tile-sub-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </template>
+      </v-list>
+    </v-menu>
+
+    <v-menu
+      dark
+      offset-y
+      v-if="$store.state.isUserLoggedIn"
+    >
+      <template v-slot:activator="{ on }">
+        <v-icon large class="ml-4" v-on="on">account_circle</v-icon>
+      </template>
+      <v-list>
+        <v-list-tile
+          v-for="(accountslist, index) in accountslists"
+          :key="index"
+        >
+            <v-list-tile-title
+              @click="navigateTo(accountslist.url)"
+              style="cursor: pointer"
+            >
+              {{ accountslist.title }}
+            </v-list-tile-title>
+        </v-list-tile>
+      </v-list>
+    </v-menu>
+    <v-btn
+      class="hidden-sm-and-down"
+      flat
+      color="white"
+      v-if="!$store.state.isUserLoggedIn"
+      @click="navigateTo('/register')"
+    >
+      Features
+    </v-btn>
+    <v-btn
+      class="hidden-sm-and-down"
+      flat
+      color="white"
+      v-if="!$store.state.isUserLoggedIn"
+      @click="navigateTo('/register')"
+    >
+      Pricing
+    </v-btn>
+    <v-btn
+      class="hidden-sm-and-down"
+      flat
+      color="white"
+      v-if="!$store.state.isUserLoggedIn"
+      @click="navigateTo('/register')"
+    >
+      About
+    </v-btn>
+    <v-btn
+      class="secondary hidden-sm-and-down"
+      flat
+      v-if="!$store.state.isUserLoggedIn"
+      @click="navigateTo('/login')"
+    >
+      Log in
+    </v-btn>
+    <!-- <v-btn
+      flat
+      large
+      style="color:#203040"
+      v-if="!$store.state.isUserLoggedIn"
+      @click="navigateTo('/register')"
+    >
+      Sign Up
+    </v-btn> -->
+    <v-btn
+      flat
+      large
+      class="accent"
+      v-if="!$store.state.isUserLoggedIn"
+      @click="navigateTo('/register')"
+    >
+      Try for free
+    </v-btn>
+  </v-toolbar>
 </template>
 
 <script>
