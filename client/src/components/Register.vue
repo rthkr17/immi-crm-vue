@@ -1,13 +1,13 @@
 <template>
   <v-layout class="cont" colmun>
-    <v-flex xs6 offset-xs3>
+    <v-flex xs10 offset-xs1 sm6 offset-sm3 ma-auto>
       <div class="white elevation-4" style="border-radius:5px 5px 5px 5px">
         <v-toolbar
           class="primary"
           style="border-radius:5px 5px 0px 0px"
         >
           <!-- <v-toolbar-side-icon></v-toolbar-side-icon> -->
-            <v-toolbar-title class="text-uppercase" style="font-weight:300">Register</v-toolbar-title>
+            <v-toolbar-title class="white--text text-uppercase" style="font-weight:300">Create Account</v-toolbar-title>
           <v-spacer></v-spacer>
         </v-toolbar>
         <div class="pl-2 pr-4 pt-4 pb-4">
@@ -38,9 +38,15 @@
           <br>
           <v-btn
             @click="register"
-            style="background:#002023; color:#eee"
+            class="secondary"
           >
             Sign Up
+          </v-btn>
+          <v-btn
+            @click="navigateTo('/login')"
+            class="accent"
+          >
+            Sign in
           </v-btn>
         </div>
       </div>
@@ -72,6 +78,9 @@ export default {
       } catch (error) {
         this.error = error.response.data.error
       }
+    },
+    navigateTo (route) {
+      this.$router.push(route)
     }
   }
 }

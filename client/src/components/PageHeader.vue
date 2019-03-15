@@ -9,6 +9,7 @@
 
       <v-toolbar-title style="width: 250px; text-align:left; font-weight:300" class="ml-0 pl-3 headline text-uppercase">Immify</v-toolbar-title>
       <v-text-field
+        v-if="$store.state.isUserLoggedIn"
         flat
         solo-inverted
         hide-details
@@ -125,11 +126,57 @@
         </v-list>
       </v-menu>
       <v-btn
+        class="hidden-sm-and-down"
+        flat
+        color="white"
         v-if="!$store.state.isUserLoggedIn"
-        style="background:#203040; color:#eee"
+        @click="navigateTo('/register')"
+      >
+        Features
+      </v-btn>
+      <v-btn
+        class="hidden-sm-and-down"
+        flat
+        color="white"
+        v-if="!$store.state.isUserLoggedIn"
+        @click="navigateTo('/register')"
+      >
+        Pricing
+      </v-btn>
+      <v-btn
+        class="hidden-sm-and-down"
+        flat
+        color="white"
+        v-if="!$store.state.isUserLoggedIn"
+        @click="navigateTo('/register')"
+      >
+        About
+      </v-btn>
+      <v-btn
+        class="secondary hidden-sm-and-down"
+        flat
+        v-if="!$store.state.isUserLoggedIn"
+        @click="navigateTo('/login')"
+      >
+        Log in
+      </v-btn>
+      <!-- <v-btn
+        flat
+        large
+        style="color:#203040"
+        v-if="!$store.state.isUserLoggedIn"
         @click="navigateTo('/register')"
       >
         Sign Up
+      </v-btn> -->
+      <v-btn
+        flat
+        large
+        class="accent"
+        v-if="!$store.state.isUserLoggedIn"
+        @click="navigateTo('/register')"
+      >
+        Try for free
       </v-btn>
     </v-toolbar>
 </template>

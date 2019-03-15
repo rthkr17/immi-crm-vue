@@ -14,8 +14,8 @@ Vue.config.productionTip = false
 Vue.use(Vuetify, {
   iconfont: 'md',
   theme: {
-    primary: colors.cyan.accent4, // #E53935
-    secondary: colors.red.lighten4, // #FFCDD2
+    primary: colors.cyan, // #E53935
+    secondary: colors.cyan.darken1, // #FFCDD2
     accent: colors.deepOrange
   }
 })
