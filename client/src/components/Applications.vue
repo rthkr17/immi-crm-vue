@@ -1,5 +1,7 @@
 <template>
-  <v-app>
+  <v-app
+    v-if="this.$store.state.isUserLoggedIn"
+  >
     <!-------------------------->
     <!-------------------------->
     <v-layout row>

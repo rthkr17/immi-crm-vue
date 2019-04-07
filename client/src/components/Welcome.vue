@@ -1,8 +1,7 @@
 <template>
-  <v-app class="hello" style="background:#eeefff">
-    <page-header/>
+  <v-app style="background:#eeefff">
     <v-carousel
-    hidden
+      hidden
       height="100vh"
       hide-delimiters
       hide-controls
@@ -47,7 +46,7 @@
   <v-container bg fill-height grid-list-md text-xs-center>
         <v-layout row wrap align-center>
           <v-flex>
-            <h1 class="primary--text display-3">Fast. Secure. Now.</h1>
+            <h1 class="primary--text display-3">A perfect solution for your Immigration practice.</h1>
           </v-flex>
         </v-layout>
       </v-container>

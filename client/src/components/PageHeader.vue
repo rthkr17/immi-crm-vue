@@ -10,7 +10,7 @@
     <v-toolbar-title
       @click="navigateTo('dashboard')"
       style="width: 200px; text-align:left; font-weight:300"
-      class="ml-0 pl-3 headline text-uppercase"
+      class="ml-0 pl-3 headline text-uppercase secondary--text"
     >Immify</v-toolbar-title>
     <v-text-field
       v-if="$store.state.isUserLoggedIn"
@@ -121,7 +121,7 @@
           :key="index"
         >
             <v-list-tile-title
-              @click="navigateTo(accountslist.url)"
+              @click="doStuff(accountslist)"
               style="cursor: pointer"
             >
               {{ accountslist.title }}
@@ -265,6 +265,14 @@ export default {
   methods: {
     navigateTo (route) {
       this.$router.push(route)
+    },
+    doStuff (accountslist) {
+      if (accountslist.url === '/logout') {
+        this.$store.isUserLoggedIn = false
+        this.$router.push('/login')
+      } else {
+        this.$router.push(accountslist.url)
+      }
     }
   }
 }

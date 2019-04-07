@@ -5,28 +5,26 @@
       grid-list-md
       text-xs-center
     >
-      <v-flex xs10 offset-xs1 sm6 offset-sm3 ma-auto>
-        <div class="white elevation-4" style="border-radius:5px 5px 5px 5px">
-          <v-toolbar
-            class="primary"
-            style="border-radius:5px 5px 0px 0px"
-          >
-            <!-- <v-toolbar-side-icon></v-toolbar-side-icon> -->
-              <v-toolbar-title class="secondary--text text-uppercase" style="font-family:Source Sans Pro;font-weight:400">Log in</v-toolbar-title>
-            <v-spacer></v-spacer>
-          </v-toolbar>
+      <v-flex xs10 offset-xs1 sm4 offset-sm4 ma-auto>
+        <div class="white elevation-0" style="border-radius:5px 5px 5px 5px">
+          <v-flex
+            style="line-height:2; font:300 3rem Avenir"
+            class="headline">
+            Log In
+          </v-flex>
           <div class="pl-2 pr-4 pt-4 pb-4">
-            <v-flex xs10 offset-xs1 sm6 offset-sm3 md6 offset-md3>
+            <v-flex xs10 offset-xs1>
               <v-text-field
                 prepend-icon="person"
                 label="Email"
                 type="email"
                 v-model="email"
                 name="email"
+                @keyup.enter="login"
                 required
               ></v-text-field>
             </v-flex>
-            <v-flex xs10 offset-xs1 sm6 offset-sm3 md6 offset-md3>
+            <v-flex xs10 offset-xs1>
               <v-text-field
                 prepend-icon="lock"
                 label="Password"

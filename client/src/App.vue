@@ -34,6 +34,9 @@ export default {
 .v-navigation-drawer__border {
   display:none;
 }
+.bold {
+    font-weight:800;
+}
 * {
   transition:.2s;
 }

@@ -5,6 +5,7 @@ import Register from '@/components/Register'
 import Login from '@/components/Login'
 import Welcome from '@/components/Welcome'
 import Applications from '@/components/Applications'
+import CreateApplication from '@/components/CreateApplication'
 import PageHeader from '@/components/PageHeader'
 import NavDrawer from '@/components/NavDrawer'
 import Calender from '@/components/Calender'
@@ -36,6 +37,10 @@ export default new Router({
     {
       path: '/applications',
       component: Applications
+    },
+    {
+      path: '/applications/create',
+      component: CreateApplication
     },
     {
       path: '/page-header',

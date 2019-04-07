@@ -2,6 +2,7 @@
 <div>
   <v-navigation-drawer
       app
+      v-if="$store.state.isUserLoggedIn"
       width=250
       :mini-variant.sync="mini"
       mini-variant-width=30
@@ -83,7 +84,7 @@
   >
     <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
 
-    <v-toolbar-title style="width: 250px; text-align:left; font-weight:300" class="ml-0 pl-3 headline text-uppercase">Immify</v-toolbar-title>
+    <v-toolbar-title style="width: 250px; text-align:left; font-weight:400" class="ml-0 pl-3 headline text-uppercase secondary--text">Immify</v-toolbar-title>
     <v-text-field
       v-if="$store.state.isUserLoggedIn"
       flat
@@ -193,7 +194,7 @@
           :key="index"
         >
             <v-list-tile-title
-              @click="navigateTo(accountslist.url)"
+              @click="doStuff(accountslist)"
               style="cursor: pointer"
             >
               {{ accountslist.title }}
@@ -202,7 +203,7 @@
       </v-list>
     </v-menu>
     <v-btn
-      class="hidden-sm-and-down"
+      class="hidden-sm-and-down button"
       flat
       color="secondary"
       v-if="!$store.state.isUserLoggedIn"
@@ -211,7 +212,7 @@
       Features
     </v-btn>
     <v-btn
-      class="hidden-sm-and-down"
+      class="hidden-sm-and-down button"
       flat
       color="secondary"
       v-if="!$store.state.isUserLoggedIn"
@@ -220,7 +221,7 @@
       Pricing
     </v-btn>
     <v-btn
-      class="hidden-sm-and-down"
+      class="hidden-sm-and-down button"
       flat
       color="secondary"
       v-if="!$store.state.isUserLoggedIn"
@@ -229,7 +230,7 @@
       About
     </v-btn>
     <v-btn
-      class="secondary hidden-sm-and-down"
+      class="secondary hidden-sm-and-down button"
       flat
       v-if="!$store.state.isUserLoggedIn"
       @click="navigateTo('/login')"
@@ -247,8 +248,7 @@
     </v-btn> -->
     <v-btn
       flat
-      large
-      class="accent"
+      class="accent button"
       v-if="!$store.state.isUserLoggedIn"
       @click="navigateTo('/register')"
     >
@@ -358,6 +358,16 @@ export default {
   methods: {
     navigateTo (route) {
       this.$router.push(route)
+    },
+    doStuff (accountslist) {
+      if (accountslist.url === '/logout') {
+        this.$store.state.isUserLoggedIn = false
+        this.$store.state.user = null
+        this.$store.state.token = null
+        this.$router.push('/login')
+      } else {
+        this.$router.push(accountslist.url)
+      }
     }
   }
 }
@@ -365,4 +375,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.button {
+  font-weight:800
+}
 </style>
