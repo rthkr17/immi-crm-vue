@@ -108,7 +108,7 @@
             >
               <v-card>
                 <v-card-title
-                  class="headline primary white--text"
+                  class="headline primary secondary--text"
                   primary-title
                 >
                   Documents Checklist for {{ props.item.name }}
@@ -142,8 +142,8 @@
           </div>
         </td>
         <td class="justify-center">{{ props.item.lifespan }}</td>
-        <td class="dates justify-center" @load="formatDate(props.item.createdAt)" ref="createdDate">{{ props.item.createdAt }}</td>
-        <td class="dates justify-center"  @load="formatDate(props.item.updatedAt)" ref="updatedDate">{{ props.item.updatedAt }}</td>
+        <td class="createdDate justify-center">{{ props.item.createdAt }}</td>
+        <td class="updatedDate justify-center" >{{ props.item.updatedAt }}</td>
         <td class="justify-center layout px-0">
           <v-menu dark offset-y>
             <template v-slot:activator="{ on }">
@@ -308,7 +308,7 @@ export default {
       { text: 'Type', value: 'type' },
       { text: 'Status', value: 'status' },
       { text: 'Documents', value: 'documents' },
-      { text: 'Lifespan', value: 'lifespan' },
+      { text: 'Lifespan (Days)', value: 'lifespan' },
       { text: 'Created', value: 'createdAt' },
       { text: 'Updated', value: 'updatedAt' },
       { text: 'Actions', value: 'name', sortable: false }
@@ -317,8 +317,34 @@ export default {
   }),
   async mounted () {
     this.applications = (await ApplicationsService.index()).data
+    for (const key in this.applications) {
+      let application = this.applications[key]
+      var a = moment(application.createdAt)
+      var b = moment()
+      application.lifespan = b.diff(a, 'days')
+      application.createdAt = moment(application.createdAt).format('MMM Do YY')
+      application.updatedAt = moment(application.updatedAt).format('MMM Do YY')
+    }
+    // let myApplications = this.applications
+    // console.log(myApplications)
+    // Object.keys(myApplications).forEach(key => {
+    //   let application = myApplications[key]
+    //   Object.keys(application).forEach(keyy => {
+    //     console.log(keyy)
+    //     if (keyy === 'createdAt') {
+    //       console.log(keyy, 'found')
+    //       application[keyy].moment().format('MMM Do YY')
+    //       console.log(application[keyy], 'heheh')
+    //     } else if (keyy === 'updatedAt') {
+    //       console.log(keyy, 'foundd')
+    //       application[keyy].moment().format('MMM Do YY')
+    //       console.log(application[keyy], 'huihui')
+    //     } else {
+    //       console.log('Couldnt find')
+    //     }
+    //   })
+    // })
   },
-
   props: {
     source: String
   },
@@ -342,11 +368,20 @@ export default {
       console.log('yoyoyoyo')
       this.activityDialog = true
     },
-    formatDate (date) {
+    formatCDate (date) {
       this.date = moment().format('MMM Do YY')
       console.log('Clickedd', this.date)
-      this.textContent = this.date
+      var elem = document.querySelector('.createdDate')
+      elem.innerHTML = this.date
+      console.log(elem)
     },
+    // formatUDate (date) {
+    //   this.date = moment().format('MMM Do YY')
+    //   console.log('Clickedd', this.date)
+    //   var elem = document.querySelector('.updatedDate')
+    //   elem.innerHTML = this.date
+    //   console.log(elem)
+    // },
     navigateTo (route) {
       this.$router.push(route)
     }

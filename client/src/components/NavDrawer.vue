@@ -82,7 +82,7 @@
     color="primary"
     :clipped-left="$vuetify.breakpoint.lgAndUp"
   >
-    <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
+    <v-toolbar-side-icon class="secondary--text" @click.stop="drawer = !drawer"></v-toolbar-side-icon>
 
     <v-toolbar-title style="width: 250px; text-align:left; font-weight:400" class="ml-0 pl-3 headline text-uppercase secondary--text">Immify</v-toolbar-title>
     <v-text-field
@@ -98,7 +98,8 @@
     ></v-text-field>
 
     <v-spacer></v-spacer>
-
+    <div class="secondary--text subheading" id="currentTime">
+    </div>
     <v-menu
       offset-y
       v-if="$store.state.isUserLoggedIn"
@@ -259,11 +260,19 @@
 </template>
 
 <script>
+const moment = require('moment')
+var update = function () {
+  document.getElementById('currentTime')
+    .innerHTML = moment().format('MMMM Do YYYY, h:mm:ss a')
+}
+setInterval(update, 1000)
 export default {
   data: () => ({
     dialog: false,
     drawer: null,
+    currentTime: null,
     items: [
+      { icon: 'home', text: 'Dashboard', url: '/dashboard' },
       { icon: 'contacts', text: 'Applications', url: '/applications' },
       { icon: 'history', text: 'Schedules', url: '/schedules' },
       { icon: 'message', text: 'Messages', url: '/messages' },

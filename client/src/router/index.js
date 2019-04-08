@@ -9,6 +9,7 @@ import CreateApplication from '@/components/CreateApplication'
 import PageHeader from '@/components/PageHeader'
 import NavDrawer from '@/components/NavDrawer'
 import Calender from '@/components/Calender'
+import Staff from '@/components/Staff'
 
 Vue.use(Router)
 
@@ -37,6 +38,10 @@ export default new Router({
     {
       path: '/applications',
       component: Applications
+    },
+    {
+      path: '/staff',
+      component: Staff
     },
     {
       path: '/applications/create',

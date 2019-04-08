@@ -7,7 +7,7 @@
       v-if="$store.state.isUserLoggedIn"
       class="cont"
     >
-      <v-layout row>
+      <v-layout row wrap>
         <v-flex
           xs12
           sm12
@@ -17,12 +17,11 @@
           <app-list-table></app-list-table>
         </v-flex>
         <v-flex
-          class="hidden-sm-and-down"
           xs12
           md4
           lg4
         >
-          <task-list></task-list>
+          <staff></staff>
         </v-flex>
       </v-layout>
       <v-layout row>
@@ -86,6 +85,7 @@ import Login from '@/components/Login'
 import Todo from '@/components/Todo'
 import PageHeader from '@/components/PageHeader'
 import NavDrawer from '@/components/NavDrawer'
+import Staff from '@/components/Staff'
 
 export default {
   components: {
@@ -97,7 +97,8 @@ export default {
     Login,
     Todo,
     PageHeader,
-    NavDrawer
+    NavDrawer,
+    Staff
   },
   data: () => ({
     dialog: false

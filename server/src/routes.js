@@ -1,6 +1,7 @@
 const AuthenticationController = require('./controllers/AuthenticationController')
 const AuthenticationControllerPolicy = require('./policies/AuthenticationControllerPolicy')
 const ApplicationsController = require('./controllers/ApplicationsController')
+const StaffController = require('./controllers/StaffController')
 
 module.exports  = (app) => {
     app.post('/register',
@@ -15,4 +16,10 @@ module.exports  = (app) => {
  
     app.post('/applications',
         ApplicationsController.post)
+    
+    app.post('/staff',
+        StaffController.addStaff)
+    
+    app.get('/staff',
+        StaffController.getStaff)
 }
