@@ -22,29 +22,23 @@
             <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12>
-                  <v-text-field v-model="name" label="Name" required></v-text-field>
+                  <v-text-field v-model="from" label="From" required></v-text-field>
                 </v-flex>
                 <v-flex xs12>
-                  <v-text-field v-model="email" label="Email*" required></v-text-field>
+                  <v-text-field v-model="to" label="To" required></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6>
                   <v-autocomplete
-                    v-model="assignedApplicants"
+                    v-model="applicant"
                     :items="applicants"
-                    label="Assign Applicants"
+                    label="Applicant/s concernes"
                     multiple
                     required
                   ></v-autocomplete>
                 </v-flex>
-                <v-flex xs12 sm6>
-                  <v-autocomplete
-                  v-model="assignedStaff"
-                    :items="['Skiing', 'Ice hockey', 'Soccer', 'Basketball', 'Hockey', 'Reading', 'Writing', 'Coding', 'Basejump']"
-                    label="Assign Staff"
-                    multiple
-                    required
-                  ></v-autocomplete>
-                </v-flex>
+                <v-flex xs12>
+                    <v-textarea v-model="content" label="Content" required></v-textarea>
+                  </v-flex>
               </v-layout>
             </v-container>
             <small>*indicates required field</small>
@@ -52,7 +46,7 @@
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn color="blue darken-1" flat @click="dialog = false">Cancel</v-btn>
-            <v-btn color="blue darken-1" flat @click="addStaff(), dialog = false">Add</v-btn>
+            <v-btn color="blue darken-1" flat @click="addMessage(), dialog = false">Add</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -64,8 +58,8 @@
           :key="item.id"
         >
           <v-list-tile-content>
-            <v-list-tile-title>{{ item.name }}</v-list-tile-title>
-            <v-list-tile-sub-title>Assigned to - <b>{{ item.assignedApplicants }}</b></v-list-tile-sub-title>
+            <v-list-tile-title>{{ item.from }}</v-list-tile-title>
+            <v-list-tile-sub-title>Assigned to - <b>{{ item.content }}</b></v-list-tile-sub-title>
           </v-list-tile-content>
 
           <v-list-tile-action @click="message">
@@ -78,8 +72,8 @@
 </template>
 
 <script>
+import MessageService from '@/services/MessageService'
 import ApplicationsService from '@/services/ApplicationsService'
-import StaffService from '@/services/StaffService'
 export default {
   data () {
     return {
@@ -115,26 +109,26 @@ export default {
           subtitle: "<span class='text--primary'>Ongoing cases &mdash; 20</span>"
         }
       ],
-      staff: [],
+      messages: [],
       applicants: [],
       applications: [],
-      name: '',
-      email: '',
-      assignedApplicants: '',
-      assignedStaff: '',
+      from: '',
+      to: '',
+      applicant: '',
+      content: '',
       error: null
     }
   },
   methods: {
-    async addStaff () {
+    async addMessage () {
       try {
-        const response = await StaffService.addStaff({
-          name: this.name,
-          email: this.email,
-          assignedApplicants: this.assignedApplicants,
-          assignedStaff: this.assignedStaff
+        const response = await MessageService.addMessage({
+          from: this.from,
+          to: this.to,
+          applicant: this.applicant,
+          content: this.content
         })
-        this.staff = (await StaffService.getStaff()).data
+        this.messages = (await MessageService.getMessages()).data
         console.log(response)
       } catch (error) {
         this.error = error.response.data.error
@@ -151,8 +145,8 @@ export default {
       console.log('Applicants name : ', application.name)
       this.applicants.push(application.name)
     }
-    this.staff = (await StaffService.getStaff()).data
-    console.log('StaffData : ', this.staff)
+    this.messages = (await MessageService.getMessages()).data
+    console.log('MessageData : ', this.messages)
   }
 }
 </script>

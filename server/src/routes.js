@@ -2,6 +2,7 @@ const AuthenticationController = require('./controllers/AuthenticationController
 const AuthenticationControllerPolicy = require('./policies/AuthenticationControllerPolicy')
 const ApplicationsController = require('./controllers/ApplicationsController')
 const StaffController = require('./controllers/StaffController')
+const MessageController = require('./controllers/MessageController')
 
 module.exports  = (app) => {
     app.post('/register',
@@ -22,4 +23,10 @@ module.exports  = (app) => {
     
     app.get('/staff',
         StaffController.getStaff)
+    
+    app.post('/messages',
+        MessageController.addMessage)
+    
+    app.get('/messages',
+        MessageController.getMessages)
 }

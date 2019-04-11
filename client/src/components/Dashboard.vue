@@ -88,6 +88,17 @@ import NavDrawer from '@/components/NavDrawer'
 import Staff from '@/components/Staff'
 
 export default {
+  data: () => ({
+    dialog: false
+  }),
+  props: {
+    source: String
+  },
+  methods: {
+    navigateTo (route) {
+      this.$router.push(route)
+    }
+  },
   components: {
     AppListTable,
     MessageList,
@@ -99,17 +110,6 @@ export default {
     PageHeader,
     NavDrawer,
     Staff
-  },
-  data: () => ({
-    dialog: false
-  }),
-  props: {
-    source: String
-  },
-  methods: {
-    navigateTo (route) {
-      this.$router.push(route)
-    }
   }
 }
 

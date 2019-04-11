@@ -3,7 +3,7 @@
     <v-card-title flat class="white headline">
     Schedule
       <v-spacer></v-spacer>
-      <v-btn icon color="accent" dark class="mb-2" v-on="on">
+      <v-btn icon color="primary" dark class="mb-2" v-on="on">
         <v-icon>add</v-icon>
       </v-btn>
     </v-card-title>
@@ -96,9 +96,9 @@ export default {
     text-overflow: ellipsis;
     white-space: nowrap;
     border-radius: 2px;
-    background-color: #FF4500;
+    background-color: #009688;
     color: #ffffff;
-    border: 1px solid #FF4500;
+    border: 1px solid #009688;
     font-size: 12px;
     padding: 3px;
     cursor: pointer;

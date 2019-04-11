@@ -10,6 +10,8 @@ import PageHeader from '@/components/PageHeader'
 import NavDrawer from '@/components/NavDrawer'
 import Calender from '@/components/Calender'
 import Staff from '@/components/Staff'
+import Messages from '@/components/Messages'
+import Messagesss from '@/components/Messagesss'
 
 Vue.use(Router)
 
@@ -59,6 +61,16 @@ export default new Router({
       path: '/schedules',
       name: 'schedules',
       component: Calender
+    },
+    {
+      path: '/messages',
+      name: 'messages',
+      component: Messages
+    },
+    {
+      path: '/messagesss',
+      name: 'messagesss',
+      component: Messagesss
     }
   ]
 })

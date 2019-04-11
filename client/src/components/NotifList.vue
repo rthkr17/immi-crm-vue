@@ -7,7 +7,7 @@
 
       <v-btn
         icon
-        color="accent"
+        color="primary"
         dark class="mb-2"
       >
         <v-icon>search</v-icon>
