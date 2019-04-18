@@ -5,7 +5,7 @@
       grid-list-md
       text-xs-center
     >
-      <v-flex xs10 offset-xs1 sm4 offset-sm4 ma-auto>
+      <v-flex xs10 offset-xs1 sm6 offset-sm3 ma-auto>
         <div class="white elevation-0" style="border-radius:5px 5px 5px 5px">
           <v-flex
             style="line-height:2; font:300 3rem Avenir"
@@ -14,6 +14,17 @@
               Create Your Account
           </v-flex>
           <div class="pl-2 pr-4 pt-4 pb-4">
+            <v-flex xs10 offset-xs1>
+              <v-text-field
+                prepend-icon="person"
+                label="Name"
+                type="name"
+                v-model="name"
+                name="name"
+                autocomplete="off"
+                required
+              ></v-text-field>
+            </v-flex>
             <v-flex xs10 offset-xs1>
               <v-text-field
                 prepend-icon="person"
@@ -64,6 +75,7 @@ import AuthenticationService from '@/services/AuthenticationService'
 export default {
   data () {
     return {
+      name: '',
       email: '',
       password: '',
       error: null
@@ -73,6 +85,7 @@ export default {
     async register () {
       try {
         const response = await AuthenticationService.register({
+          name: this.name,
           email: this.email,
           password: this.password
         })

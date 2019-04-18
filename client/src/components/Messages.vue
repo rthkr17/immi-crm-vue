@@ -14,9 +14,6 @@
               <v-container grid-list-md>
                 <v-layout wrap>
                   <v-flex xs12 sm6>
-                    <v-text-field v-model="from" label="From" required></v-text-field>
-                  </v-flex>
-                  <v-flex xs12 sm6>
                     <v-text-field v-model="to" label="To" required></v-text-field>
                   </v-flex>
                   <v-flex xs12>
@@ -52,6 +49,7 @@
           <td>{{ props.item.id }}</td>
           <td class="justify-center">{{ props.item.from }}</td>
           <td class="justify-center">{{ props.item.to }}</td>
+          <td class="justify-center">{{ props.item.applicant }}</td>
           <td class="justify-center" >{{ props.item.content }}</td>
           <td class="justify-center" >{{ props.item.createdAt }}</td>
           <td class="justify-center layout px-0">
@@ -94,7 +92,7 @@ export default {
       from: '',
       to: '',
       content: '',
-      applicant: '',
+      applicant: [],
       error: null,
       actions: [
         {
@@ -111,6 +109,7 @@ export default {
         { text: 'ID', value: 'id' },
         { text: 'From', value: 'from' },
         { text: 'To', value: 'to' },
+        { text: 'Concerned Applicant(s)', value: 'applicant' },
         { text: 'Content', value: 'content' },
         { text: 'Created', value: 'createdAt' },
         { text: 'Actions', value: 'actions', sortable: false }
@@ -141,10 +140,10 @@ export default {
     async addMessage () {
       try {
         const response = await MessageService.addMessage({
-          from: this.from,
+          from: this.$store.state.user.name,
           to: this.to,
-          content: this.content,
-          applicant: this.applicant
+          applicant: this.applicant,
+          content: this.content
         })
         console.log(response)
         this.messages = (await MessageService.getMessages()).data

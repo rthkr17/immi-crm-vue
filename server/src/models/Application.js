@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         status: DataTypes.STRING,
         documents: DataTypes.JSON,
-        lifespan: DataTypes.INTEGER,
+        lifespan: DataTypes.INTEGER
         // formtype: DataTypes.STRING,
         // firstname: DataTypes.STRING,
         // lastname: DataTypes.STRING,

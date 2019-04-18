@@ -8,7 +8,7 @@ import Applications from '@/components/Applications'
 import CreateApplication from '@/components/CreateApplication'
 import PageHeader from '@/components/PageHeader'
 import NavDrawer from '@/components/NavDrawer'
-import Calender from '@/components/Calender'
+import Schedules from '@/components/Schedules'
 import Staff from '@/components/Staff'
 import Messages from '@/components/Messages'
 import Messagesss from '@/components/Messagesss'
@@ -60,7 +60,7 @@ export default new Router({
     {
       path: '/schedules',
       name: 'schedules',
-      component: Calender
+      component: Schedules
     },
     {
       path: '/messages',

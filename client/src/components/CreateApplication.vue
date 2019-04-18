@@ -9,7 +9,7 @@
       <v-card class="vcard">
         <v-flex xs10 offset-xs1 d-flex>
         <v-select
-          v-model="formtype"
+          v-model="type"
           :items="formslist"
           label="Standard"
           required
@@ -32,7 +32,6 @@
               >
                 <v-text-field
                   v-model="firstname"
-                  :rules="nameRules"
                   :counter="10"
                   label="First name"
                   required
@@ -45,7 +44,6 @@
               >
                 <v-text-field
                   v-model="lastname"
-                  :rules="nameRules"
                   :counter="10"
                   label="Last name"
                   required
@@ -58,7 +56,6 @@
               >
                 <v-text-field
                   v-model="email"
-                  :rules="emailRules"
                   label="E-mail"
                   required
                 ></v-text-field>
@@ -71,7 +68,6 @@
               >
                 <v-text-field
                   v-model="dob"
-                  :rules="dobRules"
                   label="Date of Birth"
                   required
                 ></v-text-field>
@@ -82,7 +78,6 @@
               >
                 <v-text-field
                   v-model="pob"
-                  :rules="pobRules"
                   label="Place of Birth"
                   required
                 ></v-text-field>
@@ -93,7 +88,6 @@
               >
                 <v-text-field
                   v-model="cob"
-                  :rules="cobRules"
                   label="Country of Birth"
                   required
                 ></v-text-field>
@@ -113,14 +107,7 @@
           </v-container>
         </v-form>
       </v-card>
-      <v-btn color="primary" @click="e6 = 3">Continue</v-btn>
-    </v-stepper-content>
-
-    <v-stepper-step :complete="e6 > 3" editable step="3">Tell us about your Family</v-stepper-step>
-
-    <v-stepper-content step="3">
-      <v-card class="vcard"></v-card>
-      <v-btn color="primary" @click="createApplication">Continue</v-btn>
+      <v-btn color="primary" @click="createApplication(), e6 = 3">Continue</v-btn>
     </v-stepper-content>
   </v-stepper>
 </template>
@@ -131,33 +118,39 @@ export default {
   data: () => ({
     e6: 1,
     application: {
-      formtype: null,
-      firstname: null,
-      lastname: null,
-      email: null,
-      dob: null,
-      pob: null,
-      cob: null,
-      gender: null
+      type: '',
+      firstname: '',
+      lifespan: 0,
+      lastname: '',
+      documents: [],
+      status: '',
+      email: '',
+      dob: '',
+      pob: '',
+      cob: '',
+      gender: '',
+      error: null
 
     },
     formslist: ['CIT 0001 - Application for a Citizenship Certificate - January 2019', 'CIT 0497 - Application for Grant of citizenship for Stateless Persons Born o a Canadian Parent - August 2018'],
     genderlist: ['Male', 'Female']
   }),
   methods: {
-    async createApplication (application) {
+    async createApplication () {
       try {
         const response = await ApplicationsService.post({
-          formtype: this.formtype,
-          firstname: this.firstname,
-          lastname: this.lastname,
+          type: this.type,
+          name: this.firstname + ' ' + this.lastname,
           email: this.email,
+          lifespan: 0,
+          status: 'Open',
+          documents: ['Passport', 'DL', 'Aadhar', 'Birth Certificate', 'etc.'],
           dob: this.dob,
           pob: this.pob,
           cob: this.cob,
           gender: this.gender
         })
-        console.log(response)
+        console.log('Response is :', response)
       } catch (error) {
         this.error = error.response.data.error
       }

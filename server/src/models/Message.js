@@ -3,7 +3,7 @@ module.exports = (sequelize, DataTypes) => {
     from: DataTypes.STRING,
     to: DataTypes.STRING,
     content: DataTypes.STRING,
-    applicant: DataTypes.STRING
+    applicant: DataTypes.JSON
   })
   return Message
 }
