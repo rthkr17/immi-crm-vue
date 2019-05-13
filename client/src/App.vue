@@ -1,5 +1,5 @@
 <template>
-    <v-app id="app">
+    <v-app id="app" dense>
       <!-------------------------->
       <nav-drawer
       ></nav-drawer>
@@ -10,6 +10,7 @@
         <v-container
           grid-list-xl
           text-xs-center
+          class="containerClass"
         >
           <router-view/>
         </v-container>
@@ -48,4 +49,13 @@ export default {
   color: #2c3e50;
   margin-top: 0px;
 }
+thead {
+  background-color:#E0F2F1;
+}
+tbody tr:nth-of-type(odd) {
+   background-color: rgba(10, 30, 20, .02);
+ }
+tbody tr:nth-of-type(even) {
+   background-color: rgba(255, 255, 252, 1);
+ }
 </style>

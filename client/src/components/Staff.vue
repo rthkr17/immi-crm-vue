@@ -1,6 +1,6 @@
 <template>
-  <v-card class="white elevation-2">
-    <v-card-title flat class="white headline">
+  <v-card height="100%" class="white elevation-2">
+    <v-card-title flat class="headline font-weight-light" style="background-color:#e9faf7">
       Staff
       <v-spacer></v-spacer>
       <v-dialog v-model="dialog" persistent max-width="600px">
@@ -57,15 +57,22 @@
         </v-card>
       </v-dialog>
     </v-card-title>
-    <v-list three-line class="scroll-y" style="max-height:400px">
-      <template v-for="item in staff">
+    <v-list small one-line class="scroll-y">
+      <template class="listContainer" v-for="item in staff">
 
         <v-list-tile
+          class="listRow"
           :key="item.id"
         >
           <v-list-tile-content>
-            <v-list-tile-title>{{ item.name }}</v-list-tile-title>
-            <v-list-tile-sub-title>Assigned to - <b>{{ item.assignedApplicants }}</b></v-list-tile-sub-title>
+            <v-list-tile-title class="secondary--text">{{ item.name }}</v-list-tile-title>
+            <v-list-tile-sub-title class="font-weight-light">Assigned to
+              <b
+                v-for="assignedApplicant in item.assignedApplicants"
+                :key="assignedApplicant"
+              >
+                {{ " - " + assignedApplicant }}
+            </b></v-list-tile-sub-title>
           </v-list-tile-content>
 
           <v-list-tile-action @click="message">
@@ -158,4 +165,14 @@ export default {
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.v-list {
+  padding-top:0;
+  padding-bottom:0;
+}
+.v-list .listRow:nth-of-type(odd) {
+   background-color: rgba(10, 30, 20, .02);
+ }
+.v-list .listRow:nth-of-type(even) {
+   background-color: rgba(255, 255, 252, 1);
+ }
 </style>

@@ -4,6 +4,8 @@ const ApplicationsController = require('./controllers/ApplicationsController')
 const StaffController = require('./controllers/StaffController')
 const MessageController = require('./controllers/MessageController')
 const SchedulesController = require('./controllers/SchedulesController')
+const RetainerController = require('./controllers/RetainerController')
+const TaskController = require('./controllers/TaskController')
 
 module.exports  = (app) => {
     app.post('/register',
@@ -15,6 +17,9 @@ module.exports  = (app) => {
  
     app.get('/applications',
         ApplicationsController.index)
+    
+    app.get('/applications/:applicationId',
+        ApplicationsController.show)
  
     app.post('/applications',
         ApplicationsController.post)
@@ -36,4 +41,16 @@ module.exports  = (app) => {
     
     app.get('/schedules',
         SchedulesController.getSchedules)
+    
+    app.post('/retainers',
+        RetainerController.addRetainer)
+    
+    app.get('/retainers',
+        RetainerController.getRetainers)
+    
+    app.post('/tasks',
+        TaskController.addTask)
+    
+    app.get('/tasks',
+        TaskController.getTasks)
 }

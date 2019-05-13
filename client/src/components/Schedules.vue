@@ -1,10 +1,9 @@
 <template>
   <div>
     <v-card height="100%" class="white elevation-2">
-      <v-card-title flat class="white headline">
+      <v-card-title flat class="white headline font-weight-light">
         Schedules
         <v-spacer></v-spacer>
-        <v-btn color="secondary" dark class="mb-2" @click="configFolder">Configure</v-btn>
         <v-btn color="primary" dark class="mb-2" @click="scheduleDialog = true">New</v-btn>
         <v-dialog v-model="scheduleDialog" persistent max-width="600px">
           <v-card>
@@ -18,16 +17,15 @@
                     <v-autocomplete
                       v-model="applicant"
                       :items="applicants"
-                      label="Concerned Applicant"
-                      multiple
+                      label="Select Applicant"
                       required
                     ></v-autocomplete>
                   </v-flex>
-                  <v-flex xs12 sm6 m4>
+                  <v-flex xs12 sm6 m6>
                     <v-dialog
                       ref="dateDialog"
                       v-model="dateModal"
-                      :return-value.sync="date"
+                      :return-value.sync="selectedDate"
                       persistent
                       lazy
                       full-width
@@ -35,25 +33,25 @@
                     >
                       <template v-slot:activator="{ on }">
                         <v-text-field
-                          v-model="date"
-                          label="Pick a Date"
+                          v-model="selectedDate"
+                          label="Pick Date"
                           prepend-icon="event"
                           readonly
                           v-on="on"
                         ></v-text-field>
                       </template>
-                      <v-date-picker v-model="date" scrollable>
+                      <v-date-picker v-model="selectedDate" scrollable>
                         <v-spacer></v-spacer>
                         <v-btn flat color="primary" @click="dateModal = false">Cancel</v-btn>
-                        <v-btn flat color="primary" @click="$refs.dateDialog.save(date), dateModal = false">OK</v-btn>
+                        <v-btn flat color="primary" @click="$refs.dateDialog.save(selectedDate), dateModal = false">OK</v-btn>
                       </v-date-picker>
                     </v-dialog>
                   </v-flex>
-                  <v-flex xs12 sm6 md4>
+                  <v-flex xs12 sm6 md6>
                     <v-dialog
                       ref="timeDialog"
                       v-model="timeModal"
-                      :return-value.sync="time"
+                      :return-value.sync="selectedTime"
                       persistent
                       lazy
                       full-width
@@ -61,17 +59,17 @@
                     >
                       <template v-slot:activator="{ on }">
                         <v-text-field
-                          v-model="time"
-                          label="Pick a Time"
+                          v-model="selectedTime"
+                          label="Pick Time"
                           prepend-icon="event"
                           readonly
                           v-on="on"
                         ></v-text-field>
                       </template>
-                      <v-time-picker v-model="time" scrollable>
+                      <v-time-picker v-model="selectedTime" scrollable>
                         <v-spacer></v-spacer>
                         <v-btn flat color="primary" @click="timeModal = false">Cancel</v-btn>
-                        <v-btn flat color="primary" @click="$refs.timeDialog.save(time),timeModal = false">OK</v-btn>
+                        <v-btn flat color="primary" @click="$refs.timeDialog.save(selectedTime), timeModal = false">OK</v-btn>
                       </v-time-picker>
                     </v-dialog>
                   </v-flex>
@@ -79,8 +77,7 @@
                     <v-autocomplete
                       v-model="duration"
                       :items="durationSet"
-                      label="Duration"
-                      multiple
+                      label="Duration (minutes)"
                       required
                     ></v-autocomplete>
                   </v-flex>
@@ -91,7 +88,7 @@
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn color="blue darken-1" flat @click="scheduleDialog = false">Cancel</v-btn>
-              <v-btn color="blue darken-1" flat @click="addSchedule(), scheduleDialog = false">Send</v-btn>
+              <v-btn color="blue darken-1" flat @click="addSchedule()">Send</v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -143,61 +140,7 @@
           <td>{{ props.item.duration }}</td>
           <td>{{ props.item.applicant }}</td>
           <td>{{ props.item.consultant }}</td>
-          <td class="justify-center">
-            <template>
-              <v-btn
-                icon
-                class="primary--text"
-                dark
-                @click="docDialog = true"
-              >
-                <v-icon
-                >
-                  alarm_add
-                </v-icon>
-              </v-btn>
-            </template>
-            <div class="text-xs-center">
-              <v-dialog
-                v-model="docDialog"
-                width="500"
-              >
-                <v-card>
-                  <v-card-title
-                    class="headline primary secondary--text"
-                    primary-title
-                  >
-                    Select Time for {{ props.item.name }}
-                  </v-card-title>
-
-                  <v-card-text
-                    v-for="(doc) in props.item.documents"
-                    :key="doc.id"
-                  >
-                    <v-checkbox
-                      :label="`${doc.url}`"
-                    >
-                      {{doc.url}}
-                    </v-checkbox>
-                  </v-card-text>
-
-                  <v-divider></v-divider>
-
-                  <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn
-                      color="primary"
-                      flat
-                      @click="docDialog = false"
-                    >
-                      Back
-                    </v-btn>
-                  </v-card-actions>
-                </v-card>
-              </v-dialog>
-            </div>
-          </td>
-          <td class="justify-center layout px-0">
+          <td class="justify-center px-0">
             <v-menu dark offset-y>
               <template v-slot:activator="{ on }">
                 <v-icon class="ml-4" v-on="on">reorder</v-icon>
@@ -220,7 +163,7 @@
           </td>
         </template>
         <template v-slot:no-data>
-          <v-btn color="primary" @click="initialize">Reset</v-btn>
+          <v-card color="secondary--text elevation-0 title ma-5 font-weight-light" style="background:rgba(0,0,0,0)">No Schedules Yet</v-card>
         </template>
       </v-data-table>
     </v-card>
@@ -230,15 +173,19 @@
 <script>
 import SchedulesService from '@/services/SchedulesService'
 import ApplicationsService from '@/services/ApplicationsService'
-let moment = require('moment')
+let moment = require('moment-timezone')
 export default {
   data: () => ({
+    selectedDate: '',
+    selectedTime: '',
     staffTime: '',
     applicantTime: '',
-    duration: null,
-
+    applicant: [],
+    consultant: '',
+    duration: [],
     dateModal: false,
     timeModal: false,
+    error: null,
     actions: [
       {
         text: 'Create Note',
@@ -270,7 +217,6 @@ export default {
       { text: 'Duration (mins)', value: 'duration' },
       { text: 'Applicant', value: 'applicant' },
       { text: 'Consultant', value: 'consultant' },
-      { text: 'Select Time', value: 'selectTime' },
       { text: 'Actions', value: 'name', sortable: false }
     ],
     schedules: [],
@@ -286,7 +232,7 @@ export default {
       schedule.updatedAt = moment(schedule.updatedAt).format('MMMM Do YYYY, h:mm:ss a')
       schedule.staffTime = moment(schedule.staffTime).format('MMMM Do YYYY, h:mm:ss a')
       schedule.applicantTime = moment(schedule.applicantTime).format('MMMM Do YYYY, h:mm:ss a')
-      schedule.selecTime = moment(schedule.selectTime).format('MMMM Do YYYY, h:mm:ss a')
+      schedule.selectTime = moment(schedule.selectTime).format('MMMM Do YYYY, h:mm:ss a')
     }
     for (const key in this.applications) {
       let application = this.applications[key]
@@ -301,14 +247,14 @@ export default {
     async addSchedule () {
       try {
         const response = await SchedulesService.addSchedule({
-          staffTime: this.staffTime.tz('America/Los_Angeles').format('ha z'),
-          applicantTime: this.applicantTime.tz('America/Los_Angeles').format('ha z'),
+          staffTime: moment.tz((this.selectedDate + ' ' + this.selectedTime), 'America/New_York'),
+          applicantTime: moment.tz((this.selectedDate + ' ' + this.selectedTime), 'America/Los_Angeles'),
           applicant: this.applicant,
           consultant: this.$store.state.user.name,
           duration: this.duration,
-          selectTime: this.date + ' ' + this.time
-
+          selectTime: this.selectedDate + ' ' + this.selectedTime
         })
+        this.schedules = (await SchedulesService.getSchedules()).data
         console.log(response)
       } catch (error) {
         this.error = error.response.data.error
@@ -317,7 +263,7 @@ export default {
     async setAction (id, action) {
       if (action) {
         console.log(id)
-        let url = `applications/${id}/${action.id}`
+        let url = `schedules/${id}/${action.id}`
         this.$router.push(url)
       }
     },

@@ -4,6 +4,9 @@ module.exports = {
   async getMessages (req, res) {
     try {
       const message =  await Message.findAll({
+        where: {
+          to: 'Rajesh Thakur'
+        }
       })
       res.send(message)
     } catch (err) {

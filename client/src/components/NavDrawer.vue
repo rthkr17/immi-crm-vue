@@ -43,12 +43,20 @@
                   {{ item.text }}
                 </v-list-tile-title>
               </v-list-tile-content>
+              <v-list-tile-content
+                 style="float:right;padding-left:-60px"
+              >
+                <v-icon>
+                  {{ item.iconRight }}
+                </v-icon>
+              </v-list-tile-content>
             </v-list-tile>
           </template>
           <v-list-tile
             v-for="(child, i) in item.children"
             :key="i"
             @click="navigateTo(child.url)"
+            style="padding-left:4%;"
           >
             <v-list-tile-action v-if="child.icon">
               <v-icon>{{ child.icon }}</v-icon>
@@ -98,7 +106,11 @@
     ></v-text-field>
 
     <v-spacer></v-spacer>
-    <div class="secondary--text subheading" id="currentTime">
+    <div
+      v-if="$store.state.isUserLoggedIn"
+      class="secondary--text subheading"
+      id="currentTime"
+    >
     </div>
     <v-menu
       offset-y
@@ -263,7 +275,7 @@
 const moment = require('moment')
 var update = function () {
   document.getElementById('currentTime')
-    .innerHTML = moment().format('MMMM Do YYYY, h:mm:ss a')
+    .innerHTML = moment().format('MMMM Do, h:mm a')
 }
 setInterval(update, 1000)
 export default {
@@ -273,21 +285,29 @@ export default {
     currentTime: null,
     items: [
       { icon: 'home', text: 'Dashboard', url: '/dashboard' },
-      { icon: 'contacts', text: 'Applications', url: '/applications' },
-      { icon: 'history', text: 'Schedules', url: '/schedules' },
-      { icon: 'message', text: 'Messages', url: '/messages' },
       {
-        icon: 'keyboard_arrow_up',
-        'icon-alt': 'keyboard_arrow_down',
-        text: 'More',
+        icon: 'assignment',
+        text: 'Applications',
+        'icon-alt': 'assignment',
         model: false,
         children: [
-          { text: 'Reports', url: '/reports' },
-          { text: 'Tasks', url: '/tasks' },
-          { text: 'Invite', url: '/invite' }
+          { text: 'Application List', url: '/applications' },
+          { text: 'Messages', url: '/messages' },
+          { text: 'Retainers', url: '/retainers' },
+          { text: 'Tasks', url: '/tasks' }
         ]
       },
-      { icon: 'settings', text: 'Settings', url: '/settings' },
+      { icon: 'history', text: 'Schedules', url: '/schedules' },
+      {
+        icon: 'settings',
+        text: 'Settings',
+        'icon-alt': 'settings',
+        model: false,
+        children: [
+          { text: 'Profile', url: '/profile' },
+          { text: 'Chenge Password', url: '/reset-password' }
+        ]
+      },
       { icon: 'chat_bubble', text: 'Send feedback', url: '/feedback' },
       { icon: 'help', text: 'Help', url: '/help' }
     ],
@@ -386,5 +406,12 @@ export default {
 <style scoped>
 .button {
   font-weight:800
+}
+.v-icon.material-icons.theme--light {
+  float:right;
+  position:relative;
+}
+.v-list__tile__content {
+  text-align:right;
 }
 </style>

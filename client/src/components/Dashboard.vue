@@ -10,73 +10,72 @@
       <v-layout row wrap>
         <v-flex
           xs12
-          sm12
-          md8
-          lg8
+          md6
+          lg6
         >
-          <app-list-table></app-list-table>
+          <messages-dash></messages-dash>
         </v-flex>
         <v-flex
           xs12
-          md4
-          lg4
+          sm12
+          md6
+          lg6
+        >
+          <app-list-dash></app-list-dash>
+        </v-flex>
+      </v-layout>
+      <v-layout row wrap>
+        <v-flex
+          xs12
+          sm8
+        >
+          <tasks-dash></tasks-dash>
+        </v-flex>
+        <v-flex
+          xs12
+          sm4
         >
           <staff></staff>
         </v-flex>
       </v-layout>
-      <v-layout row>
+      <v-layout row wrap>
         <v-flex
-          sm12
-          md6
-          class="hidden-md-and-up"
-          >
-          <message-list></message-list>
-        </v-flex>
-        <v-flex
-          class="hidden-sm-and-down"
-          sm12
-          md6
+          xs12
+          sm5
         >
-          <todo-list></todo-list>
+          <schedules-dash></schedules-dash>
         </v-flex>
-      </v-layout>
-      <v-layout row>
         <v-flex
-          sm12
-          style="margin-top:-20px"
+          xs12
+          sm7
         >
           <calender></calender>
         </v-flex>
       </v-layout>
-      <v-layout row>
+      <!-- <v-layout row wrap>
         <v-flex
-          class="hidden-md-and-up"
+          sm12
+          md6
+          >
+          <message-list></message-list>
+        </v-flex>
+        <v-flex
           xs12
           md4
           lg4
         >
           <task-list></task-list>
         </v-flex>
-      </v-layout>
-      <v-layout row>
-        <v-flex
-          class="hidden-sm-and-down"
-          sm12
-          md6
-        >
-          <message-list></message-list>
-        </v-flex>
-        <v-flex sm12 md6>
-          <notif-list></notif-list>
-        </v-flex>
-      </v-layout>
+      </v-layout> -->
     </div>
-    <!-- <v-footer app>c - 2019</v-footer> -->
+    <!-- <v-footer height="5%" app class="primary secondary--text justify-center">
+      <div class="title font-weight-light">Copyright - 2019</div>
+    </v-footer> -->
   </v-app>
 </template>
 
 <script>
-import AppListTable from '@/components/AppListTable'
+import AppListDash from '@/components/AppListDash'
 import MessageList from '@/components/MessageList'
 import NotifList from '@/components/NotifList'
 import TaskList from '@/components/TaskList'
@@ -85,7 +84,10 @@ import Login from '@/components/Login'
 import Todo from '@/components/Todo'
 import PageHeader from '@/components/PageHeader'
 import NavDrawer from '@/components/NavDrawer'
+import MessagesDash from '@/components/MessagesDash'
+import TasksDash from '@/components/TasksDash'
 import Staff from '@/components/Staff'
+import SchedulesDash from '@/components/SchedulesDash'
 
 export default {
   data: () => ({
@@ -100,7 +102,7 @@ export default {
     }
   },
   components: {
-    AppListTable,
+    AppListDash,
     MessageList,
     NotifList,
     TaskList,
@@ -109,7 +111,10 @@ export default {
     Todo,
     PageHeader,
     NavDrawer,
-    Staff
+    MessagesDash,
+    TasksDash,
+    Staff,
+    SchedulesDash
   }
 }
 

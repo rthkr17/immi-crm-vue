@@ -49,19 +49,20 @@
             </v-flex>
             <br>
             <div class="err" v-html="error" />
-            <br>
             <v-btn
               @click="register"
+              large
               class="secondary"
             >
               Sign Up
             </v-btn>
-            <v-btn
+            <br>
+            <a
               @click="navigateTo('/login')"
-              class="accent"
+              class="signin"
             >
-              Sign in
-            </v-btn>
+              Sign in instead
+            </a>
           </div>
         </div>
       </v-flex>
@@ -110,4 +111,16 @@ export default {
   }
   .err{
     color:red;
-  }</style>
+  }
+  .signin{
+    font-size:1em;
+    line-height:2;
+    transition:.5s;
+    color:#FF5722;
+    margin-bottom:2px;
+  }
+  .signin:hover {
+    opacity:9;
+    border-bottom: 1px solid #FF5722;
+  }
+</style>

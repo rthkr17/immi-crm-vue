@@ -11,7 +11,11 @@ import NavDrawer from '@/components/NavDrawer'
 import Schedules from '@/components/Schedules'
 import Staff from '@/components/Staff'
 import Messages from '@/components/Messages'
-import Messagesss from '@/components/Messagesss'
+import Retainers from '@/components/Retainers'
+import Calender from '@/components/Calender'
+import Tasks from '@/components/Tasks'
+import UserProfile from '@/components/UserProfile'
+import Application from '@/components/Application'
 
 Vue.use(Router)
 
@@ -42,6 +46,11 @@ export default new Router({
       component: Applications
     },
     {
+      path: '/applications/:applicationId',
+      name: 'application',
+      component: Application
+    },
+    {
       path: '/staff',
       component: Staff
     },
@@ -68,9 +77,24 @@ export default new Router({
       component: Messages
     },
     {
-      path: '/messagesss',
-      name: 'messagesss',
-      component: Messagesss
+      path: '/retainers',
+      name: 'retainers',
+      component: Retainers
+    },
+    {
+      path: '/tasks',
+      name: 'tasks',
+      component: Tasks
+    },
+    {
+      path: '/profile',
+      name: 'profile',
+      component: UserProfile
+    },
+    {
+      path: '/calender',
+      name: 'calender',
+      component: Calender
     }
   ]
 })

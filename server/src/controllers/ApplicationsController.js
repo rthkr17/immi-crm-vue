@@ -13,6 +13,16 @@ module.exports = {
       })
     }
   },
+  async show (req, res) {
+    try {
+      const application =  await Application.findById(req.params.applicationId)
+      res.send(application)
+    } catch (err) {
+      res.status(400).send({
+        error: 'Error fetching application.'
+      })
+    }
+  },
   async post (req, res) {
     try {
       const application = await Application.create(req.body)

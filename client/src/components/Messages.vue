@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-card height="100%" class="white elevation-2">
-      <v-card-title flat class="white headline">
+      <v-card-title flat class="white headline font-weight-light">
         Messages
         <v-spacer></v-spacer>
         <v-btn color="primary" dark class="mb-2" @click="messageDialog = true">New</v-btn>
@@ -13,8 +13,11 @@
             <v-card-text>
               <v-container grid-list-md>
                 <v-layout wrap>
-                  <v-flex xs12 sm6>
+                  <v-flex xs12 sm4>
                     <v-text-field v-model="to" label="To" required></v-text-field>
+                  </v-flex>
+                  <v-flex xs12 sm8>
+                    <v-text-field v-model="subject" label="Subject" required></v-text-field>
                   </v-flex>
                   <v-flex xs12>
                     <v-autocomplete
@@ -40,57 +43,96 @@
           </v-card>
         </v-dialog>
       </v-card-title>
-      <v-data-table
-        :headers="headers"
-        :items="messages"
-        class="elevation-0"
+      <v-card-text>
+      <!-------------------------->
+      <v-tabs
+        show-arrows
+        class="secondary--text"
       >
-        <template v-slot:items="props">
-          <td>{{ props.item.id }}</td>
-          <td class="justify-center">{{ props.item.from }}</td>
-          <td class="justify-center">{{ props.item.to }}</td>
-          <td class="justify-center">{{ props.item.applicant }}</td>
-          <td class="justify-center" >{{ props.item.content }}</td>
-          <td class="justify-center" >{{ props.item.createdAt }}</td>
-          <td class="justify-center layout px-0">
-            <v-menu dark offset-y>
-              <template v-slot:activator="{ on }">
-                <v-icon class="ml-4" v-on="on">reorder</v-icon>
+        <v-tabs-slider color="primary"></v-tabs-slider>
+
+        <v-tab
+          :href="'#tab-1'"
+        >
+          Inbox
+        </v-tab>
+        <v-tab
+          :href="'#tab-2'"
+        >
+          Sent
+        </v-tab>
+        <v-tabs-items>
+          <v-tab-item
+            :value="'tab-1'"
+          >
+            <v-data-table
+              :headers="headers"
+              :items="messages"
+              class="elevation-0"
+            >
+              <template
+                v-slot:items="props"
+              >
+                <td class="justify-center">{{ props.item.subject }}</td>
+                <td class="justify-center">{{ props.item.from }}</td>
+                <td class="justify-center" >{{ props.item.createdAt }}</td>
+                <td class="justify-center px-0">
+                  <v-menu dark offset-y>
+                    <template v-slot:activator="{ on }">
+                      <v-icon class="ml-4" v-on="on">reorder</v-icon>
+                    </template>
+                    <v-list>
+                      <v-list-tile
+                        v-for="(action, index) in actions"
+                        :key="index"
+                        style="text-align:right"
+                      >
+                          <v-list-tile-title
+                            @click="setAction(props.item.id, action)"
+                            style="cursor: pointer"
+                          >
+                            {{ action.text }}
+                          </v-list-tile-title>
+                      </v-list-tile>
+                    </v-list>
+                  </v-menu>
+                </td>
               </template>
-              <v-list>
-                <v-list-tile
-                  v-for="(action, index) in actions"
-                  :key="index"
-                  style="text-align:right"
-                >
-                    <v-list-tile-title
-                      @click="setAction(props.item.id, action)"
-                      style="cursor: pointer"
-                    >
-                      {{ action.text }}
-                    </v-list-tile-title>
-                </v-list-tile>
-              </v-list>
-            </v-menu>
-          </td>
-        </template>
-        <template v-slot:no-data>
-          <v-btn color="primary" @click="initialize">Reset</v-btn>
-        </template>
-      </v-data-table>
+              <template v-slot:no-data>
+                <v-card color="secondary--text elevation-0 title ma-5 font-weight-light" style="background:rgba(0,0,0,0)">No Messages Yet</v-card>
+              </template>
+            </v-data-table>
+          </v-tab-item>
+          <v-tab-item
+            :value="'tab-2'"
+          >
+            <v-card flat>
+              <v-card-text>{{ 21356745675647123 }}</v-card-text>
+            </v-card>
+          </v-tab-item>
+        </v-tabs-items>
+      </v-tabs>
+        <!-------------------------->
+        <!-------------------------->
+        <!-------------------------->
+    </v-card-text>
     </v-card>
   </div>
 </template>
-
 <script>
 import MessageService from '@/services/MessageService'
 import ApplicationsService from '@/services/ApplicationsService'
-const moment = require('moment')
+const moment = require('moment-timezone')
 export default {
   data () {
     return {
+      items: [
+        { icon: 'home', 'icon-alt': 'home', text: 'Inbox', url: '/messages/inbox' },
+        { icon: 'send', 'icon-alt': 'send', text: 'Sent', url: '/messages/sent' }
+      ],
       from: '',
       to: '',
+      subject: '',
       content: '',
       applicant: [],
       error: null,
@@ -106,18 +148,24 @@ export default {
       ],
       messageDialog: false,
       headers: [
-        { text: 'ID', value: 'id' },
-        { text: 'From', value: 'from' },
-        { text: 'To', value: 'to' },
-        { text: 'Concerned Applicant(s)', value: 'applicant' },
-        { text: 'Content', value: 'content' },
-        { text: 'Created', value: 'createdAt' },
-        { text: 'Actions', value: 'actions', sortable: false }
+        { text: 'Subject', value: 'subject', align: 'center' },
+        { text: 'From', value: 'from', align: 'center' },
+        { text: 'Date', value: 'createdAt', align: 'center' },
+        { text: 'Actions', value: 'actions', align: 'center', sortable: false }
       ],
       messages: [],
       applications: [],
       applicants: []
     }
+  },
+  async created () {
+    this.messages = this.messages.filter(message => {
+      return (message.to === this.store.state.user.name)
+    })
+    this.fetchData()
+  },
+  watch: {
+    '$route': 'fetchData'
   },
   async mounted () {
     this.messages = (await MessageService.getMessages()).data
@@ -137,16 +185,26 @@ export default {
     source: String
   },
   methods: {
+    async fetchData () {
+      this.messages = (await MessageService.getMessages()).data
+      this.messages = this.messages.filter(message => {
+        return (message.to === this.store.state.user.name)
+      })
+    },
     async addMessage () {
       try {
         const response = await MessageService.addMessage({
           from: this.$store.state.user.name,
           to: this.to,
           applicant: this.applicant,
+          subject: this.subject,
           content: this.content
         })
         console.log(response)
         this.messages = (await MessageService.getMessages()).data
+        this.messages = this.messages.filter(message => {
+          return (message.to === this.store.state.user.name)
+        })
       } catch (error) {
         this.error = error.response.data.error
       }

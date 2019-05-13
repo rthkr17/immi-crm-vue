@@ -1,11 +1,11 @@
 module.exports = (sequelize, DataTypes) => {
   const Schedule = sequelize.define('Schedule', {
-    staffTime: DataTypes.TIME,
-    applicantTime: DataTypes.TIME,
-    applicant: DataTypes.STRING,
+    staffTime: DataTypes.STRING,
+    applicantTime: DataTypes.STRING,
+    applicant: DataTypes.JSON,
     consultant: DataTypes.STRING,
-    duration: DataTypes.INTEGER,
-    selectTime: DataTypes.TIME
+    duration: DataTypes.JSON,
+    selectTime: DataTypes.STRING
   })
   // Schedule.prototpye.setTimezones = async function (time) {
   //   return {

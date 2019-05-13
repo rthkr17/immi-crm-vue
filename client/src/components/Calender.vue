@@ -1,7 +1,7 @@
 <template>
-  <v-card class="white elevation-2">
-    <v-card-title flat class="white headline">
-    Schedule
+  <v-card height="100%" class="white elevation-2">
+    <v-card-title flat class="white headline font-weight-light">
+    Calender
       <v-spacer></v-spacer>
       <v-btn icon color="primary" dark class="mb-2" v-on="on">
         <v-icon>add</v-icon>
@@ -49,25 +49,29 @@
 </template>
 
 <script>
+import SchedulesService from '@/services/SchedulesService'
+let moment = require('moment')
 export default {
   data: () => ({
-    today: '2019-01-08',
+    today: '',
     events: [
       {
-        title: 'Weekly Meeting',
-        date: '2019-01-07',
+        title: 'Staff Meeting',
+        date: '2019-05-13',
         time: '09:00',
-        duration: 45
+        duration: 60
       },
       {
-        title: 'Thomas\' Birthday',
-        date: '2019-01-10'
+        title: 'Meeting with John Wick',
+        date: '2019-05-14',
+        time: '11:00',
+        duration: 30
       },
       {
-        title: 'Mash Potatoes',
-        date: '2019-01-09',
+        title: 'Meeting with Akshit Rana',
+        date: '2019-05-17',
         time: '12:30',
-        duration: 180
+        duration: 60
       }
     ]
   }),
@@ -79,12 +83,15 @@ export default {
       return map
     }
   },
-  mounted () {
-    this.$refs.calendar.scrollToTime('08:00')
+  async mounted () {
+    this.today = moment().format('mm ss')
+    this.$refs.calendar.scrollToTime(this.today)
+    this.events.append((await SchedulesService.getSchedules()).data)
+    console.log('events : ', this.events)
   },
   methods: {
-    open (event) {
-      alert(event.title)
+    open (schedule) {
+      alert(schedule.title)
     }
   }
 }

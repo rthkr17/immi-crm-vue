@@ -9,7 +9,7 @@
       <v-card class="vcard">
         <v-flex xs10 offset-xs1 d-flex>
         <v-select
-          v-model="type"
+          v-model="formtype"
           :items="formslist"
           label="Standard"
           required
@@ -107,7 +107,7 @@
           </v-container>
         </v-form>
       </v-card>
-      <v-btn color="primary" @click="createApplication(), e6 = 3">Continue</v-btn>
+      <v-btn color="primary" @click="createApplication(), navigateTo('/applications'), e6 = 3">Continue</v-btn>
     </v-stepper-content>
   </v-stepper>
 </template>
@@ -118,7 +118,8 @@ export default {
   data: () => ({
     e6: 1,
     application: {
-      type: '',
+      formtype: '',
+      name: '',
       firstname: '',
       lifespan: 0,
       lastname: '',
@@ -133,14 +134,17 @@ export default {
 
     },
     formslist: ['CIT 0001 - Application for a Citizenship Certificate - January 2019', 'CIT 0497 - Application for Grant of citizenship for Stateless Persons Born o a Canadian Parent - August 2018'],
-    genderlist: ['Male', 'Female']
+    genderlist: ['Male', 'Female'],
+    applications: []
   }),
   methods: {
     async createApplication () {
       try {
         const response = await ApplicationsService.post({
-          type: this.type,
+          formtype: this.formtype,
           name: this.firstname + ' ' + this.lastname,
+          firstname: this.firstname,
+          lastname: this.lastname,
           email: this.email,
           lifespan: 0,
           status: 'Open',
@@ -150,10 +154,15 @@ export default {
           cob: this.cob,
           gender: this.gender
         })
+        this.$router.push('applications')
+        this.applications = (await ApplicationsService.index()).data
         console.log('Response is :', response)
       } catch (error) {
         this.error = error.response.data.error
       }
+    },
+    navigateTo (route) {
+      this.$router.push(route)
     }
   }
 }
