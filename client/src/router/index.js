@@ -16,6 +16,7 @@ import Calender from '@/components/Calender'
 import Tasks from '@/components/Tasks'
 import UserProfile from '@/components/UserProfile'
 import Application from '@/components/Application'
+import Message from '@/components/Message'
 
 Vue.use(Router)
 
@@ -55,7 +56,7 @@ export default new Router({
       component: Staff
     },
     {
-      path: '/applications/create',
+      path: '/new-application',
       component: CreateApplication
     },
     {
@@ -75,6 +76,11 @@ export default new Router({
       path: '/messages',
       name: 'messages',
       component: Messages
+    },
+    {
+      path: '/messages/:messageId',
+      name: 'message',
+      component: Message
     },
     {
       path: '/retainers',

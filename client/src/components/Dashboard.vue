@@ -13,7 +13,7 @@
           md6
           lg6
         >
-          <messages-dash></messages-dash>
+          <app-list-dash></app-list-dash>
         </v-flex>
         <v-flex
           xs12
@@ -21,7 +21,7 @@
           md6
           lg6
         >
-          <app-list-dash></app-list-dash>
+          <messages-dash></messages-dash>
         </v-flex>
       </v-layout>
       <v-layout row wrap>

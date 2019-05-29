@@ -14,7 +14,12 @@
               <v-container grid-list-md>
                 <v-layout wrap>
                   <v-flex xs12 sm4>
-                    <v-text-field v-model="to" label="To" required></v-text-field>
+                    <v-autocomplete
+                      v-model="to"
+                      :items="contactList"
+                      label="To"
+                      required
+                    ></v-autocomplete>
                   </v-flex>
                   <v-flex xs12 sm8>
                     <v-text-field v-model="subject" label="Subject" required></v-text-field>
@@ -43,7 +48,7 @@
           </v-card>
         </v-dialog>
       </v-card-title>
-      <v-card-text>
+      <v-card-text class="pa-0">
       <!-------------------------->
       <v-tabs
         show-arrows
@@ -79,7 +84,7 @@
                 <td class="justify-center px-0">
                   <v-menu dark offset-y>
                     <template v-slot:activator="{ on }">
-                      <v-icon class="ml-4" v-on="on">reorder</v-icon>
+                      <v-icon class="ml-4" v-on="on">remove_red_eye</v-icon>
                     </template>
                     <v-list>
                       <v-list-tile
@@ -106,9 +111,43 @@
           <v-tab-item
             :value="'tab-2'"
           >
-            <v-card flat>
-              <v-card-text>{{ 21356745675647123 }}</v-card-text>
-            </v-card>
+            <v-data-table
+              :headers="sentHeaders"
+              :items="sentMessages"
+              class="elevation-0"
+            >
+              <template
+                v-slot:items="props"
+              >
+                <td class="justify-center">{{ props.item.subject }}</td>
+                <td class="justify-center">{{ props.item.to }}</td>
+                <td class="justify-center" >{{ props.item.createdAt }}</td>
+                <td class="justify-center px-0">
+                  <v-menu dark offset-y>
+                    <template v-slot:activator="{ on }">
+                      <v-icon class="ml-4" v-on="on">remove_red_eye</v-icon>
+                    </template>
+                    <v-list>
+                      <v-list-tile
+                        v-for="(action, index) in actions"
+                        :key="index"
+                        style="text-align:right"
+                      >
+                          <v-list-tile-title
+                            @click="setAction(props.item.id, action)"
+                            style="cursor: pointer"
+                          >
+                            {{ action.text }}
+                          </v-list-tile-title>
+                      </v-list-tile>
+                    </v-list>
+                  </v-menu>
+                </td>
+              </template>
+              <template v-slot:no-data>
+                <v-card color="secondary--text elevation-0 title ma-5 font-weight-light" style="background:rgba(0,0,0,0)">No Messages Yet</v-card>
+              </template>
+            </v-data-table>
           </v-tab-item>
         </v-tabs-items>
       </v-tabs>
@@ -121,6 +160,7 @@
 </template>
 <script>
 import MessageService from '@/services/MessageService'
+import StaffService from '@/services/StaffService'
 import ApplicationsService from '@/services/ApplicationsService'
 const moment = require('moment-timezone')
 export default {
@@ -138,6 +178,10 @@ export default {
       error: null,
       actions: [
         {
+          text: 'View',
+          id: ''
+        },
+        {
           text: 'Star',
           id: 'star'
         },
@@ -153,9 +197,19 @@ export default {
         { text: 'Date', value: 'createdAt', align: 'center' },
         { text: 'Actions', value: 'actions', align: 'center', sortable: false }
       ],
+      sentHeaders: [
+        { text: 'Subject', value: 'subject', align: 'center' },
+        { text: 'To', value: 'to', align: 'center' },
+        { text: 'Date', value: 'createdAt', align: 'center' },
+        { text: 'Actions', value: 'actions', align: 'center', sortable: false }
+      ],
       messages: [],
+      sentMessages: [],
       applications: [],
-      applicants: []
+      applicants: [],
+      staff: [],
+      staffList: [],
+      contactList: []
     }
   },
   async created () {
@@ -180,6 +234,13 @@ export default {
       console.log('Applicants name : ', application.name)
       this.applicants.push(application.name)
     }
+    this.staff = (await StaffService.getStaff()).data
+    for (const key in this.staff) {
+      let oneStaff = this.staff[key]
+      console.log('Staff name : ', oneStaff.name)
+      this.staffList.push(oneStaff.name)
+    }
+    this.contactList = this.applicants.concat(this.staffList)
   },
   props: {
     source: String

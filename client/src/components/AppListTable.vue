@@ -4,7 +4,7 @@
       Applications
       <v-spacer></v-spacer>
       <v-btn color="secondary" dark class="mb-2" @click="configFolder">Configure</v-btn>
-      <v-btn color="primary" dark class="mb-2" @click="navigateTo('/applications/create')">New</v-btn>
+      <v-btn color="primary" dark class="mb-2" @click="navigateTo('/new-application')">New</v-btn>
       <!-- <v-dialog v-model="dialog" max-width="500px">
         <v-card>
           <v-card-title>
@@ -119,9 +119,9 @@
                   :key="doc.id"
                 >
                   <v-checkbox
-                    :label="`${doc.url}`"
+                    :label="`${doc}`"
                   >
-                    {{doc.url}}
+                    {{doc}}
                   </v-checkbox>
                 </v-card-text>
 
@@ -315,6 +315,9 @@ export default {
     ],
     applications: []
   }),
+  async created () {
+    this.applications = (await ApplicationsService.index()).data
+  },
   async mounted () {
     this.applications = (await ApplicationsService.index()).data
     for (const key in this.applications) {

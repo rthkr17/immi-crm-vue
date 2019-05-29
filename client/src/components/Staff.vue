@@ -39,7 +39,7 @@
                 <v-flex xs12 sm6>
                   <v-autocomplete
                   v-model="assignedStaff"
-                    :items="['Skiing', 'Ice hockey', 'Soccer', 'Basketball', 'Hockey', 'Reading', 'Writing', 'Coding', 'Basejump']"
+                    :items="staffList"
                     label="Assign Staff"
                     multiple
                     required
@@ -124,6 +124,7 @@ export default {
       ],
       staff: [],
       applicants: [],
+      staffList: [],
       applications: [],
       name: '',
       email: '',
@@ -159,6 +160,11 @@ export default {
       this.applicants.push(application.name)
     }
     this.staff = (await StaffService.getStaff()).data
+    for (const key in this.staff) {
+      let oneStaff = this.staff[key]
+      console.log('Staff name : ', oneStaff.name)
+      this.staffList.push(oneStaff.name)
+    }
     console.log('StaffData : ', this.staff)
   }
 }

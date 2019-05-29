@@ -228,11 +228,11 @@ export default {
     this.applications = (await ApplicationsService.index()).data
     for (const key in this.schedules) {
       let schedule = this.schedules[key]
-      schedule.createdAt = moment(schedule.createdAt).format('MMMM Do YYYY, h:mm:ss a')
-      schedule.updatedAt = moment(schedule.updatedAt).format('MMMM Do YYYY, h:mm:ss a')
-      schedule.staffTime = moment(schedule.staffTime).format('MMMM Do YYYY, h:mm:ss a')
-      schedule.applicantTime = moment(schedule.applicantTime).format('MMMM Do YYYY, h:mm:ss a')
-      schedule.selectTime = moment(schedule.selectTime).format('MMMM Do YYYY, h:mm:ss a')
+      schedule.createdAt = moment(schedule.createdAt).format('MMMM Do, h:mm a')
+      schedule.updatedAt = moment(schedule.updatedAt).format('MMMM Do, h:mm a')
+      schedule.staffTime = moment(schedule.staffTime).format('MMMM Do, h:mm a')
+      schedule.applicantTime = moment(schedule.applicantTime).format('MMMM Do, h:mm a')
+      schedule.selectTime = moment(schedule.selectTime).format('MMMM Do, h:mm a')
     }
     for (const key in this.applications) {
       let application = this.applications[key]

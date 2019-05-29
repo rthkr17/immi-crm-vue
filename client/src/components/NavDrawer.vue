@@ -3,7 +3,7 @@
   <v-navigation-drawer
       app
       v-if="$store.state.isUserLoggedIn"
-      width=250
+      width=230
       :mini-variant.sync="mini"
       mini-variant-width=30
       v-model="drawer"

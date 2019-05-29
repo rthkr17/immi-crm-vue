@@ -13,7 +13,7 @@
             md4
             class="personalInfo"
           >
-            <div class="font-weight-light title secondary--text">Personal Info</div>
+            <div class="font-weight-light title secondary--text pa-2">Personal Info</div>
             <v-text-field
               v-model="firstname"
               :counter="10"
@@ -32,6 +32,11 @@
               required
               disabled
             ></v-text-field>
+            <v-text-field
+              v-model="phone"
+              label="Phone"
+              required
+            ></v-text-field>
             <v-autocomplete
               v-model="timezone"
               :items="timezones"
@@ -42,8 +47,9 @@
           <v-flex
             xs12
             md8
+            class="availabilityInfo"
           >
-            <div class="font-weight-light title primary--text">Availabilty (Starting Time)</div>
+            <div class="font-weight-light title primary--text pa-2">Availabilty (Starting Time)</div>
             <v-layout row wrap>
               <v-flex
                 xs12
@@ -329,5 +335,8 @@ export default {
 <style scoped>
 .personalInfo {
   background-color:#E9FaF7;
+}
+.availabilityInfo {
+  background-color:#faFfFb;
 }
 </style>

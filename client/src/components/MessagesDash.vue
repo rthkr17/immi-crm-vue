@@ -1,15 +1,17 @@
 <template>
   <div>
-    <v-card height="100%" class="white elevation-2">
+    <v-card height="100%" class="white elevation-2 h-100">
       <v-card-title flat class="white headline font-weight-light">
         Unread Messages
         <v-spacer></v-spacer>
         <v-btn color="primary" dark class="mb-2" @click="navigateTo('messages')">More</v-btn>
       </v-card-title>
       <v-data-table
+        height="100%"
         :headers="headers"
         :items="messages"
         class="elevation-0"
+        style="height:100%"
       >
         <template v-slot:items="props">
           <td bold class="justify-center font-weight-bold">{{ props.item.subject }}</td>
@@ -27,7 +29,7 @@
 <script>
 import MessageService from '@/services/MessageService'
 import ApplicationsService from '@/services/ApplicationsService'
-const moment = require('moment')
+const moment = require('moment-timezone')
 export default {
   data () {
     return {

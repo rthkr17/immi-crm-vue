@@ -1,5 +1,5 @@
 <template>
-  <v-card height="100%" class="white elevation-2">
+  <v-card height="100%" class="white elevation-2 h-100">
     <v-card-title flat class="white headline font-weight-light">
       Applications
       <v-spacer></v-spacer>

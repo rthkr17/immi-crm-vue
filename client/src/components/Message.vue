@@ -1,8 +1,8 @@
 <template>
   <div>
-    <v-card height="100%" class="white elevation-2">
+    <v-card model="message" height="100%" class="white elevation-2">
       <v-card-title flat class="white headline font-weight-light">
-        Application - Edit
+        Message - View
         <v-spacer></v-spacer>
         <v-btn color="primary" class="mb-2 elevation-1" @click="update()">Save</v-btn>
       </v-card-title>
@@ -17,23 +17,23 @@
           <v-tab
             :href="'#tab-1'"
           >
-            Personal Info
+            Chat
           </v-tab>
           <v-tab
             :href="'#tab-2'"
           >
-            Education
+            Media
           </v-tab>
           <v-tab
             :href="'#tab-3'"
           >
-            Family Members
+            Settings
           </v-tab>
           <v-tabs-items>
             <v-tab-item
               :value="'tab-1'"
             >
-              <v-card flat>
+              <v-card flat v-for="item in message" :key="item">
                 <v-card-text>
                   <v-layout>
                     <v-flex
@@ -41,9 +41,21 @@
                       md4
                     >
                       <v-text-field
-                        v-model="firstname"
-                        :counter="30"
-                        label="First name"
+                        v-model="from"
+                        :counter="10"
+                        label="From"
+                        disabled
+                        required
+                      >{{ item }}</v-text-field>
+                    </v-flex>
+                    <v-flex
+                      xs12
+                      md4
+                    >
+                      <v-text-field
+                        v-model="to"
+                        :counter="10"
+                        label="To"
                         required
                       ></v-text-field>
                     </v-flex>
@@ -53,20 +65,8 @@
                       md4
                     >
                       <v-text-field
-                        v-model="lastname"
-                        :counter="30"
-                        label="Last name"
-                        required
-                      ></v-text-field>
-                    </v-flex>
-
-                    <v-flex
-                      xs12
-                      md4
-                    >
-                      <v-text-field
-                        v-model="email"
-                        label="E-mail"
+                        v-model="subject"
+                        label="Subject"
                         required
                       ></v-text-field>
                     </v-flex>
@@ -76,42 +76,11 @@
                       xs12
                       md4
                     >
-                      <v-text-field
-                        v-model="dob"
-                        label="Date of Birth"
+                      <v-textarea
+                        v-model="content"
+                        label="Content"
                         required
-                      ></v-text-field>
-                    </v-flex>
-                    <v-flex
-                      xs12
-                      md4
-                    >
-                      <v-text-field
-                        v-model="pob"
-                        label="Place of Birth"
-                        required
-                      ></v-text-field>
-                    </v-flex>
-                    <v-flex
-                      xs12
-                      md4
-                    >
-                      <v-text-field
-                        v-model="cob"
-                        label="Country of Birth"
-                        required
-                      ></v-text-field>
-                    </v-flex>
-                    <v-flex
-                      xs12
-                      md4
-                    >
-                      <v-text-field
-                        v-model="gender"
-                        :items="genderlist"
-                        label="Gender"
-                        required
-                      ></v-text-field>
+                      ></v-textarea>
                     </v-flex>
                   </v-layout>
                 </v-card-text>
@@ -139,36 +108,28 @@
 </template>
 
 <script>
-import ApplicationsService from '@/services/ApplicationsService'
+import MessageService from '@/services/MessageService'
 export default {
   data () {
     return {
-      formtype: '',
-      name: '',
-      firstname: '',
-      lifespan: 0,
-      lastname: '',
-      documents: [],
-      status: '',
-      email: '',
-      dob: '',
-      pob: '',
-      cob: '',
-      gender: '',
+      from: '',
+      to: '',
+      applicant: '',
+      subject: '',
+      content: '',
       error: null,
-      application: {}
+      message: []
     }
   },
   async mounted () {
-    const applicationId = this.$store.state.route.params.applicationId
-    this.application = (await ApplicationsService.show(applicationId)).data
-    this.firstname = this.application.firstname
-    this.lastname = this.application.lastname
-    this.email = this.application.email
-    this.dob = this.application.dob
-    this.pob = this.application.pob
-    this.cob = this.application.cob
-    this.gender = this.application.gender
+    const messageId = this.$store.state.route.params.messageId
+    this.message = (await MessageService.show(messageId)).data
+    this.from = this.message.from
+    this.to = this.message.to
+    this.applicant = this.message.applicant
+    this.subject = this.message.subject
+    this.content = this.message.content
+    console.log('Message object is :', this.message)
   }
 }
 </script>
